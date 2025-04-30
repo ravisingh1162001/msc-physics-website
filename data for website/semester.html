@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semester | UniFlix University</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #141414;
+      color: #ffffff;
+      display: flex;
+      height: 100vh;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 200px;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #000;
+      padding: 10px 30px;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #e50914;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #e50914;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100vh;
+      background-color: #000;
+      padding-top: 60px;
+      border-right: 2px solid #222;
+    }
+
+    .sidebar button {
+      width: 100%;
+      padding: 15px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1em;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+    }
+
+    .sidebar button:hover {
+      background-color: #e50914;
+    }
+
+    .section {
+      margin-left: 200px;
+      padding: 100px 40px 40px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .semester {
+      background-color: #1c1c1c;
+      padding: 30px;
+      border-radius: 10px;
+      display: none;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .semester.active {
+      display: block;
+    }
+
+    .semester h2 {
+      margin-top: 0;
+      color: #ffdd57;
+      text-align: center;
+    }
+
+    ul.subjects {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    ul.subjects li {
+      margin: 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .upload-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .upload-controls input[type="file"] {
+      display: none;
+    }
+
+    .upload-controls label,
+    .upload-controls button {
+      background-color: #e50914;
+      border: none;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .upload-controls label:hover,
+    .upload-controls button:hover {
+      background-color: #ff1f1f;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <button onclick="showSemester('sem1')">Semester 1</button>
+    <button onclick="showSemester('sem2')">Semester 2</button>
+    <button onclick="showSemester('sem3')">Semester 3</button>
+    <button onclick="showSemester('sem4')">Semester 4</button>
+  </div>
+
+  <header>
+    <div class="logo">UniFlix</div>
+    <nav>
+      <ul>
+        <li><a href="main.html">Home</a></li>
+        <li><a href="semester.html">Semester</a></li>
+        <li><a href="Professor.html">Professor</a></li>
+        <li><a href="students.html">Students</a></li>
+        <li><a href="alumni.html">Alumni</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="section">
+    <div id="sem1" class="semester active">
+      <h2>Semester 1</h2>
+      <ul class="subjects">
+        <li>Electronic <span class="upload-controls"><label for="file1">Upload</label><input type="file" id="file1"><button>Download</button></span></li>
+        <li>Applied Optics <span class="upload-controls"><label for="file2">Upload</label><input type="file" id="file2"><button>Download</button></span></li>
+        <li>Quantum Mechanics <span class="upload-controls"><label for="file3">Upload</label><input type="file" id="file3"><button>Download</button></span></li>
+        <li>Classical Mechanics <span class="upload-controls"><label for="file4">Upload</label><input type="file" id="file4"><button>Download</button></span></li>
+        <li>Mathematical Physics <span class="upload-controls"><label for="file5">Upload</label><input type="file" id="file5"><button>Download</button></span></li>
+      </ul>
+    </div>
+
+    <div id="sem2" class="semester">
+      <h2>Semester 2</h2>
+      <ul class="subjects">
+        <li>Solid State Physics <span class="upload-controls"><label for="file6">Upload</label><input type="file" id="file6"><button>Download</button></span></li>
+        <li>Electrodynamics <span class="upload-controls"><label for="file7">Upload</label><input type="file" id="file7"><button>Download</button></span></li>
+        <li>Computational Methods <span class="upload-controls"><label for="file8">Upload</label><input type="file" id="file8"><button>Download</button></span></li>
+        <li>Advanced Quantum Mechanics <span class="upload-controls"><label for="file9">Upload</label><input type="file" id="file9"><button>Download</button></span></li>
+        <li>Statistical Mechanics <span class="upload-controls"><label for="file10">Upload</label><input type="file" id="file10"><button>Download</button></span></li>
+      </ul>
+    </div>
+
+    <div id="sem3" class="semester">
+      <h2>Semester 3</h2>
+      <ul class="subjects">
+        <li>Atomic and Molecular Physics <span class="upload-controls"><label for="file11">Upload</label><input type="file" id="file11"><button>Download</button></span></li>
+        <li>Nuclear and Particle Physics <span class="upload-controls"><label for="file12">Upload</label><input type="file" id="file12"><button>Download</button></span></li>
+        <li>Plasma Physics <span class="upload-controls"><label for="file13">Upload</label><input type="file" id="file13"><button>Download</button></span></li>
+        <li>Fibre and Integrated Optics <span class="upload-controls"><label for="file14">Upload</label><input type="file" id="file14"><button>Download</button></span></li>
+        <li>Characterization Techniques <span class="upload-controls"><label for="file15">Upload</label><input type="file" id="file15"><button>Download</button></span></li>
+      </ul>
+    </div>
+
+    <div id="sem4" class="semester">
+      <h2>Semester 4</h2>
+      <ul class="subjects">
+        <li>Advanced Semiconductor Devices <span class="upload-controls"><label for="file16">Upload</label><input type="file" id="file16"><button>Download</button></span></li>
+        <li>Advanced Functional Materials <span class="upload-controls"><label for="file17">Upload</label><input type="file" id="file17"><button>Download</button></span></li>
+        <li>Lasers and Spectroscopy <span class="upload-controls"><label for="file18">Upload</label><input type="file" id="file18"><button>Download</button></span></li>
+        <li>Space and Atmospheric Science <span class="upload-controls"><label for="file19">Upload</label><input type="file" id="file19"><button>Download</button></span></li>
+      </ul>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const buttons = document.querySelectorAll(".sidebar button");
+      const semesters = document.querySelectorAll(".semester");
+
+      buttons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+          semesters.forEach((sem) => sem.classList.remove("active"));
+          semesters[index].classList.add("active");
+        });
+      });
+    });
+  </script>
+</body>
+</html>
