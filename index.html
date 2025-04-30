@@ -2,9 +2,92 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>University Portal</title>
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('prof/WhatsApp Image 2025-04-30 at 1.56.32 PM.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+    }
+
+    /* Overlay for contrast */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: -1;
+    }
+
+    header {
+      background-color: #000;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: red;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.3s;
+      text-decoration: none;
+      color: white;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #facc15;
+    }
+
+    footer {
+      background-color: #000;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -18,46 +101,43 @@
         <li><a href="alumni.html">Alumni</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
-      
     </nav>
   </header>
 
   <main>
-    <section id="home" class="section">
-      <h1>Welcome to UniFlix</h1>
+    <a href="main.html" class="card">
+      <h2>Welcome to DTU MSC Physics</h2>
       <p>Explore our academic offerings and vibrant campus life.</p>
-    </section>
+    </a>
 
-    <section id="semester" class="section">
+    <a href="semester.html" class="card">
       <h2>Semester Details</h2>
       <p>Info about courses, exams, and academic calendar.</p>
-    </section>
+    </a>
 
-    <section id="professor" class="section">
+    <a href="Professor.html" class="card">
       <h2>Professor Profiles</h2>
       <p>Meet our expert faculty members.</p>
-    </section>
+    </a>
 
-    <section id="students" class="section">
+    <a href="students.html" class="card">
       <h2>Student Information</h2>
       <p>Discover student life and resources.</p>
-    </section>
+    </a>
 
-    <section id="alumni" class="section">
+    <a href="alumni.html" class="card">
       <h2>Alumni Stories</h2>
       <p>See what our graduates are doing around the world.</p>
-    </section>
+    </a>
 
-    <section id="about" class="section">
+    <a href="about.html" class="card">
       <h2>About the University</h2>
       <p>Learn more about our history, mission, and values.</p>
-    </section>
+    </a>
   </main>
 
   <footer>
-    <p>&copy; 2025 UniFlix University. All rights reserved.</p>
+    <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
