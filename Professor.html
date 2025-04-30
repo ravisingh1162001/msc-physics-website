@@ -1,31 +1,486 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professors</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTU Physics Faculty</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #141414;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #000;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #e50914;
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #e50914;
+        }
+
+        /* Main Content Container */
+        .container {
+            display: flex;
+            margin-top: 80px; /* Space for fixed header */
+            height: calc(100vh - 140px); /* Adjust for header/footer */
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 300px;
+            background-color: #000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .professor-list {
+            list-style: none;
+        }
+
+        .professor-item {
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .professor-item:hover {
+            background-color: #2a2a2a;
+        }
+
+        /* Main Content Area */
+        .content {
+            flex: 1;
+            padding: 40px;
+            background-color: #141414;
+            overflow-y: auto;
+        }
+
+        /* Professor Card Styles */
+        .professor-card {
+            background-color: #181818;
+            border-radius: 8px;
+            padding: 30px;
+            display: none;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        }
+
+        .active {
+            display: block;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 8px;
+            margin-right: 30px;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #e50914;
+        }
+
+        .profile-detail {
+            margin-bottom: 10px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .profile-detail b {
+            color: #e50914;
+            display: inline-block;
+            width: 140px;
+        }
+
+        a {
+            color: #e50914;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #000;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                flex-direction: column;
+                margin-top: 120px;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 300px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+            }
+
+            .profile-image {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">UniFlix</div>
-    <nav>
-      <ul>
-        <li><a href="main.html">Home</a></li>
-        <li><a href="semester.html">Semester</a></li>
-        <li><a href="Professor.html">Professor</a></li>
-        <li><a href="students.html">Students</a></li>
-        <li><a href="alumni.html">Alumni</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-      
-    </nav>
-  </header>
+    <header>
+        <div class="logo">UniFlix</div>
+        <nav>
+            <ul>
+                <li><a href="main.html">Home</a></li>
+                <li><a href="semester.html">Semester</a></li>
+                <li><a href="Professor.html" class="active">Professor</a></li>
+                <li><a href="students.html">Students</a></li>
+                <li><a href="alumni.html">Alumni</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <div class="container">
+        <div class="sidebar">
+            <h2 style="color: #e50914; margin-bottom: 20px;">Physics Department Faculty</h2>
+            <ul class="professor-list" id="professorMenu"></ul>
+        </div>
 
+        <div class="content" id="professorContent"></div>
+    </div>
 
-  <footer>
-    <p>&copy; 2025 UniFlix University. All rights reserved.</p>
-  </footer>
+    <footer>
+        <p>&copy; 2025 UniFlix University. All rights reserved.</p>
+    </footer>
+
+    <!-- Professor Data and Script -->
+    <script>
+        const professors = [ {
+                name: "Prof. Vinod Singh",
+                image: "prof/vinodsingh.jpg",
+                designation: "Professor, Head of Department",
+                qualification: "M.Sc. (Gold Medal), Ph.D., IIT Delhi",
+                specialization: "Synthesis and characterization of functional nanomaterials and explore their size dependent properties and applications",
+                email: ["vinodsingh.iitd12@gmail.com", "vinodsingh@dtu.ac.in"],
+                profileLink: "vinodsingh.php"
+            },
+            {
+                name: "Prof. Suresh C. Sharma",
+                image: "prof/scsharma.jpg",
+                designation: "Professor, Former Dean(Acad-PG)",
+                qualification: "M.Sc(Phys. with Electronics), M.Phil., Ph.D. (Plasma Physics)",
+                specialization: "Plasma Physics, Carbon Nanotubes, Graphene Composites, THz Radiation Emission",
+                email: ["suresh321sharma@gmail.com", "prof_sureshsharma@dtu.ac.in"],
+                profileLink: "scsharma.php"
+            },
+            {
+                name: "Dr. R.K. Sinha",
+                image: "prof/rksinha.jpg",
+                designation: "Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Fibre optics, optical communication, nanophotonics devices",
+                email: ["rksinha@dtu.ac.in", "dr_rk_sinha@yahoo.com"],
+                profileLink: "rksinha.pdf"
+            },
+            {
+                name: "Prof. Rinku Sharma",
+                image: "prof/rinkusharma.jpg",
+                designation: "Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Laser-atom interactions, THz Radiation Emission in nanostructures",
+                email: ["rinkusharmagtbit@gmail.com"],
+                profileLink: "rinkusharma.php"
+            },
+            {
+                name: "Dr. A. Srinivas Rao",
+                image: "prof/srinivas.jpg",
+                designation: "Professor",
+                qualification: "PhD",
+                specialization: "Solid state spectroscopy, atmospheric sciences",
+                email: [],
+                profileLink: "asrinivasrao.php"
+            },
+            {
+                name: "Dr. Rishu Chaujar",
+                image: "prof/rishuChaujar.jpg",
+                designation: "Professor",
+                qualification: "M.Sc (Gold Medalist), PhD",
+                specialization: "Semiconductor Device Modeling, Nanowire FETs, Biomedical Sensors",
+                email: ["chaujar.rishu@dtu.ac.in", "rishuchaujar@rediffmail.com"],
+                profileLink: "rishuChaujar.php"
+            },
+            {
+                name: "Dr. Nitin K. Puri",
+                image: "prof/nitinkumarpuri.jpg",
+                designation: "Professor",
+                qualification: "PhD",
+                specialization: "Nanostructured materials, thin films, ion beam modifications",
+                email: ["nitinkumarpuri@dtu.ac.in", "nitinpuri2002@yahoo.co.in"],
+                profileLink: "nitinkumarpuri.php"
+            },
+            {
+                name: "Dr. Mohan S. Mehata",
+                image: "prof/msmehata.jpg",
+                designation: "Associate Professor",
+                qualification: "PhD",
+                specialization: "Fluorescent spectroscopy, quantum dots, organic LEDs",
+                email: ["msmehata@dtu.ac.in"],
+                profileLink: "msmehata.php"
+            },
+            {
+                name: "Dr. M. Jayasimhadri",
+                image: "prof/mjayasimhadri.jpg",
+                designation: "Associate Professor",
+                qualification: "PhD",
+                specialization: "Optical spectroscopy, solid state physics, nanotechnology",
+                email: ["jayasimha@dtu.ac.in", "jayaphysics@yahoo.com"],
+                profileLink: "mjayasimhadri.php"
+            },
+            {
+                name: "Dr. Ajeet Kumar",
+                image: "prof/ajeetkumar (1).jpg",
+                designation: "Associate Professor",
+                qualification: "PhD",
+                specialization: "Fiber optics, integrated optics, solar energy",
+                email: ["ajeetdph@gmail.com"],
+                profileLink: "ajeetkumar.php"
+            },
+            {
+                name: "Dr. Yogita Kalra",
+                image: "prof/yogitakalra (1).jpg",
+                designation: "Associate Professor",
+                qualification: "PhD",
+                specialization: "Nanophotonics, photonic crystals, optical devices",
+                email: ["dryogitakalra@gmail.com"],
+                profileLink: "yogitakalra.php"
+            },
+            {
+                name: "Dr. Amrish K. Panwar",
+                image: "prof/amrishpanwar1.jpg",
+                designation: "Associate Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Energy storage devices, thermoelectric materials",
+                email: ["panwaramar@gmail.com"],
+                profileLink: "amrishpanwar.php"
+            },
+            {
+                name: "Dr. Pawan Tyagi",
+                image: "prof/pawantyagi.jpg",
+                designation: "Associate Professor",
+                qualification: "PhD",
+                specialization: "Carbon nanotubes, graphene synthesis, diamond materials",
+                email: ["tyagi_pawan@yahoo.co.in", "pawankumartyagi@gmail.com"],
+                profileLink: "pawantyagi.php"
+            },
+            {
+                name: "Dr. Bharti Singh",
+                image: ".prof/bhartisingh.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Thin films, resistive memory devices, 2D materials",
+                email: ["bhartisingh@dtu.ac.in"],
+                profileLink: "bhartisingh.php"
+            },
+            {
+                name: "Dr. Richa Sharma",
+                image: "prof/richasharma.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc., PhD",
+                specialization: "Multiferroic composites, thermoelectric materials",
+                email: ["richasharma@dtu.ac.in"],
+                profileLink: "richasharma.php"
+            },
+            {
+                name: "Dr. Deshraj Meena",
+                image: "prof/deshrajmeena.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Under update",
+                email: ["deshrajmeena@dtu.ac.in"],
+                profileLink: "deshrajmeena.php"
+            },
+            {
+                name: "Dr. Renuka Bokolia",
+                image: "prof/renukabokolia.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Ferroelectric ceramics, phosphors, dielectric materials",
+                email: ["renukabokolia@dtu.ac.in"],
+                profileLink: "renukabokolia.php"
+            },
+            {
+                name: "Dr. Sarita Baghel",
+                image: "prof/saritabaghel.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc, PhD",
+                specialization: "Solar cells, renewable energy materials",
+                email: ["saritabaghel@dtu.ac.in"],
+                profileLink: "saritabaghel.php"
+            },
+            {
+                name: "Yogendra Kumar Meena",
+                image: "prof/ymeena.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc",
+                specialization: "Under update",
+                email: ["yogendra.meena@dtu.ac.in"],
+                profileLink: "ymeena.php"
+            },
+            {
+                name: "Dr. Mukhtiyar Singh",
+                image: "prof/mukhtiyarsingh.jpg",
+                designation: "Assistant Professor",
+                qualification: "M.Sc., PhD",
+                specialization: "Theoretical condensed matter physics, spintronics",
+                email: ["mukhtiyarsingh@dtu.ac.in"],
+                profileLink: "mukhtiyarsingh.php"
+            },
+            {
+                name: "Dr. Kamal Kishor",
+                image: "prof/kamal_sir.png",
+                designation: "Assistant Professor",
+                qualification: "PhD",
+                specialization: "Fiber optics, photonic crystals, metamaterials",
+                email: ["kamalkishor@dce.ac.in"],
+                profileLink: "kamalkishor.php"
+            },
+            {
+                name: "Prof. Shailesh Sharma",
+                image: "prof/Shailesh.jpg",
+                designation: "Emeritus Professor",
+                qualification: "PhD",
+                specialization: "Quantum dots, hybrid nanocomposites, photovoltaics",
+                email: ["shaileshnarainsharma@dtu.ac.in", "snsharma99@gmail.com"],
+                profileLink: "Shailesh.pdf"
+            },
+            {
+                name: "Prof. Himadri B Bohidar",
+                image: "prof/mjayasimhadri.jpg",
+                designation: "Honorary Faculty",
+                qualification: "PhD",
+                specialization: "Soft matter physics, biophysics, polymer physics",
+                email: ["hbbohidar@jnu.ac.in"],
+                profileLink: "Himadri.pdf"
+            }
+         
+            // ... (Keep the exact same professors array from previous answer)
+        ];
+
+        // Populate content
+        const menu = document.getElementById('professorMenu');
+        const contentArea = document.getElementById('professorContent');
+
+        professors.forEach((prof, index) => {
+            // Create menu item
+            const menuItem = document.createElement('li');
+            menuItem.className = 'professor-item';
+            menuItem.textContent = prof.name;
+            menuItem.addEventListener('click', () => showProfessor(index));
+            menu.appendChild(menuItem);
+
+            // Create content card
+            const card = document.createElement('div');
+            card.className = 'professor-card';
+            
+            const emailLinks = prof.email.map(e => 
+                `<a href="mailto:${e}">${e.replace(/@/g, '[at]').replace(/\./g, '[dot]')}</a>`
+            ).join(', ');
+
+            card.innerHTML = `
+                <div class="profile-header">
+                    <img src="${prof.image}" alt="${prof.name}" class="profile-image">
+                    <div class="profile-info">
+                        <h1 class="profile-name">${prof.name}</h1>
+                        <p class="profile-detail"><b>Designation:</b> ${prof.designation}</p>
+                        <p class="profile-detail"><b>Qualification:</b> ${prof.qualification}</p>
+                        <p class="profile-detail"><b>Specialization:</b> ${prof.specialization}</p>
+                        ${prof.email.length ? 
+                            `<p class="profile-detail"><b>Email:</b> ${emailLinks}</p>` : ''}
+                        <p class="profile-detail">
+                            <a href="${prof.profileLink}">Detailed Profile →</a>
+                        </p>
+                    </div>
+                </div>
+            `;
+            contentArea.appendChild(card);
+        });
+
+        // Show first professor by default
+        document.querySelector('.professor-card').classList.add('active');
+        document.querySelector('.professor-item').classList.add('active');
+
+        function showProfessor(index) {
+            // Remove active class from all
+            document.querySelectorAll('.professor-card, .professor-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Add active class to selected
+            contentArea.children[index].classList.add('active');
+            menu.children[index].classList.add('active');
+        }
+    </script>
 </body>
 </html>
