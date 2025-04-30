@@ -3,12 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Students</title>
+  <title>DTU MSc Physics</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="logo">UniFlix</div>
+    <div class="logo">DTU MSc Physics</div>
     <nav>
       <ul>
         <li><a href="main.html">Home</a></li>
@@ -16,28 +31,27 @@
         <li><a href="Professor.html">Professor</a></li>
         <li><a href="students.html">Students</a></li>
         <li><a href="alumni.html">Alumni</a></li>
+        <li><a href="gallery.html">Gallery</a></li> <!-- New Gallery Link -->
         <li><a href="about.html">About</a></li>
       </ul>
-      
     </nav>
   </header>
 
   <main class="section">
-    <h1>Our Students</h1>
-    <div class="card-grid">
-      <div class="card">
-        <h3>Alice Johnson</h3>
-        <p>BSc Computer Science</p>
-      </div>
-      <div class="card">
-        <h3>Mark Rivera</h3>
-        <p>BA Economics</p>
-      </div>
+    <h1>Photo Gallery</h1>
+    <div class="gallery">
+      <!-- Sample images - replace with your actual images -->
+      <img src="https://via.placeholder.com/300x200?text=Physics+Lab" alt="Physics Lab">
+      <img src="https://via.placeholder.com/300x200?text=Research+Work" alt="Research Work">
+      <img src="https://via.placeholder.com/300x200?text=Campus" alt="Campus">
+      <img src="https://via.placeholder.com/300x200?text=Seminar" alt="Seminar">
+      <img src="https://via.placeholder.com/300x200?text=Students" alt="Students">
+      <img src="https://via.placeholder.com/300x200?text=Workshop" alt="Workshop">
     </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 UniFlix University. All rights reserved.</p>
+    <p>&copy; 2025 DTU MSc Physics. All rights reserved.</p>
   </footer>
 </body>
 </html>
