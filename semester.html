@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>University Semesters</title>
+  <title>Semester | DTU MSC Physics</title>
   <style>
     body {
       margin: 0;
@@ -12,16 +12,51 @@
       color: white;
     }
 
-    .navbar {
+    header {
+      background-color: #000;
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      background-color: #111;
-      padding: 20px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
       flex-wrap: wrap;
     }
 
-    .navbar button {
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e50914;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+    }
+
+    nav ul li a:hover {
+      background-color: #e50914;
+    }
+
+    .semester-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .semester-buttons button {
       background-color: #e50914;
       color: white;
       font-size: 16px;
@@ -32,24 +67,19 @@
       transition: 0.3s;
     }
 
-    .navbar button.active {
-      outline: 2px solid white;
-    }
-
-    .navbar button:hover {
+    .semester-buttons button:hover {
       background-color: #b20710;
     }
 
     .section {
-      padding: 30px;
-      text-align: center;
+      padding: 20px;
     }
 
     .semester {
       display: none;
       background-color: #000;
-      border-radius: 20px;
       padding: 20px;
+      border-radius: 10px;
       max-width: 900px;
       margin: 0 auto;
     }
@@ -61,166 +91,215 @@
     .semester h2 {
       color: #ffd700;
       margin-bottom: 20px;
+      text-align: center;
     }
 
-    .subject-row {
+    .subjects {
+      list-style: none;
+      padding: 0;
+    }
+
+    .subjects li {
       background-color: #222;
-      padding: 15px 20px;
       margin: 10px 0;
+      padding: 15px;
       border-radius: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .subject-row span {
-      font-size: 18px;
+    .upload-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
-    .subject-row .btn-group button {
-      margin-left: 10px;
+    .upload-controls label {
       background-color: #e50914;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
-    .subject-row .btn-group button:hover {
+    .upload-controls input[type="file"] {
+      display: none;
+    }
+
+    .upload-controls button {
+      background-color: #e50914;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+
+    .upload-controls button:hover,
+    .upload-controls label:hover {
       background-color: #b20710;
     }
 
-    .syllabus-btn {
-      display: inline-block;
-      padding: 12px 20px;
-      margin-top: 15px;
-      background-color: #e50914;
-      color: white;
-      font-weight: bold;
+    .syllabus-container {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .syllabus-container.active {
+      display: block;
+    }
+
+    .syllabus-container h2 {
+      color: #ffdd57;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .syllabus-container iframe {
+      width: 100%;
+      height: 600px;
       border: none;
       border-radius: 8px;
-      text-decoration: none;
-      font-size: 16px;
-      transition: background-color 0.3s;
+      margin-bottom: 20px;
     }
 
-    .syllabus-btn:hover {
-      background-color: #b20710;
+    .download-button {
+      display: flex;
+      justify-content: center;
+    }
+
+    .download-button a {
+      background-color: #e50914;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .download-button a:hover {
+      background-color: #ff1f1f;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #000;
+      color: #888;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 
-  <div class="navbar">
-    <button onclick="showSemester('syllabus')" id="btn-syllabus">Syllabus</button>
-    <button onclick="showSemester('sem1')" id="btn-sem1">Semester 1</button>
-    <button onclick="showSemester('sem2')" id="btn-sem2">Semester 2</button>
-    <button onclick="showSemester('sem3')" id="btn-sem3">Semester 3</button>
-    <button onclick="showSemester('sem4')" id="btn-sem4">Semester 4</button>
-  </div>
+  <header>
+    <div class="logo">DTU MSC Physics</div>
+    <nav>
+      <ul>
+        <li><a href="main.html">Home</a></li>
+        <li><a href="semester.html">Semester</a></li>
+        <li><a href="Professor.html">Professor</a></li>
+        <li><a href="students.html">Students</a></li>
+        <li><a href="alumni.html">Alumni</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <main class="section">
-    <!-- Syllabus Section -->
-    <div id="syllabus" class="semester">
-      <h2>Course Syllabus</h2>
-      <p>Click the button below to view or download the full syllabus PDF:</p>
-      <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" target="_blank" class="syllabus-btn">View Syllabus PDF</a>
+    <div class="semester-buttons">
+      <button onclick="showSemester('syllabus')">Syllabus</button>
+      <button onclick="showSemester('sem1')">Semester 1</button>
+      <button onclick="showSemester('sem2')">Semester 2</button>
+      <button onclick="showSemester('sem3')">Semester 3</button>
+      <button onclick="showSemester('sem4')">Semester 4</button>
     </div>
 
+    <!-- Syllabus -->
+<!-- Syllabus Section -->
+<div id="syllabus" class="syllabus-container">
+  <h2>Syllabus</h2>
+  <div class="download-button">
+    <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" target="_blank">View Syllabus PDF</a>
+  </div>
+  <div class="download-button" style="margin-top: 10px;">
+    <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" download>Download Syllabus PDF</a>
+  </div>
+</div>
+
+
     <!-- Semester 1 -->
-    <div id="sem1" class="semester">
+    <div id="sem1" class="semester active">
       <h2>Semester 1</h2>
-      <div class="subject-row">
-        <span>Subject 1</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
+      <ul class="subjects">
+        <li>Electronic <span class="upload-controls"><label for="file1">Upload</label><input type="file" id="file1"><button>Download</button></span></li>
+        <li>Applied Optics <span class="upload-controls"><label for="file2">Upload</label><input type="file" id="file2"><button>Download</button></span></li>
+        <li>Quantum Mechanics <span class="upload-controls"><label for="file3">Upload</label><input type="file" id="file3"><button>Download</button></span></li>
+        <li>Classical Mechanics <span class="upload-controls"><label for="file4">Upload</label><input type="file" id="file4"><button>Download</button></span></li>
+        <li>Mathematical Physics <span class="upload-controls"><label for="file5">Upload</label><input type="file" id="file5"><button>Download</button></span></li>
+      </ul>
     </div>
 
     <!-- Semester 2 -->
     <div id="sem2" class="semester">
       <h2>Semester 2</h2>
-      <div class="subject-row">
-        <span>Subject A</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
+      <ul class="subjects">
+        <li>Solid State Physics <span class="upload-controls"><label for="file6">Upload</label><input type="file" id="file6"><button>Download</button></span></li>
+        <li>Electrodynamics <span class="upload-controls"><label for="file7">Upload</label><input type="file" id="file7"><button>Download</button></span></li>
+        <li>Computational Methods <span class="upload-controls"><label for="file8">Upload</label><input type="file" id="file8"><button>Download</button></span></li>
+        <li>Advanced Quantum Mechanics <span class="upload-controls"><label for="file9">Upload</label><input type="file" id="file9"><button>Download</button></span></li>
+        <li>Statistical Mechanics <span class="upload-controls"><label for="file10">Upload</label><input type="file" id="file10"><button>Download</button></span></li>
+      </ul>
     </div>
 
     <!-- Semester 3 -->
-    <div id="sem3" class="semester active">
+    <div id="sem3" class="semester">
       <h2>Semester 3</h2>
-      <div class="subject-row">
-        <span>Atomic and Molecular Physics</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
-      <div class="subject-row">
-        <span>Nuclear and Particle Physics</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
-      <div class="subject-row">
-        <span>Plasma Physics</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
-      <div class="subject-row">
-        <span>Fibre and Integrated Optics</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
-      <div class="subject-row">
-        <span>Characterization Techniques</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
+      <ul class="subjects">
+        <li>Atomic and Molecular Physics <span class="upload-controls"><label for="file11">Upload</label><input type="file" id="file11"><button>Download</button></span></li>
+        <li>Nuclear and Particle Physics <span class="upload-controls"><label for="file12">Upload</label><input type="file" id="file12"><button>Download</button></span></li>
+        <li>Plasma Physics <span class="upload-controls"><label for="file13">Upload</label><input type="file" id="file13"><button>Download</button></span></li>
+        <li>Fibre and Integrated Optics <span class="upload-controls"><label for="file14">Upload</label><input type="file" id="file14"><button>Download</button></span></li>
+        <li>Characterization Techniques <span class="upload-controls"><label for="file15">Upload</label><input type="file" id="file15"><button>Download</button></span></li>
+      </ul>
     </div>
 
     <!-- Semester 4 -->
     <div id="sem4" class="semester">
       <h2>Semester 4</h2>
-      <div class="subject-row">
-        <span>Advanced Topics</span>
-        <div class="btn-group">
-          <button>Upload</button>
-          <button>Download</button>
-        </div>
-      </div>
+      <ul class="subjects">
+        <li>Advanced Semiconductor Devices <span class="upload-controls"><label for="file16">Upload</label><input type="file" id="file16"><button>Download</button></span></li>
+        <li>Advanced Functional Materials <span class="upload-controls"><label for="file17">Upload</label><input type="file" id="file17"><button>Download</button></span></li>
+        <li>Lasers and Spectroscopy <span class="upload-controls"><label for="file18">Upload</label><input type="file" id="file18"><button>Download</button></span></li>
+        <li>Space and Atmospheric Science <span class="upload-controls"><label for="file19">Upload</label><input type="file" id="file19"><button>Download</button></span></li>
+      </ul>
     </div>
   </main>
 
+  <footer>
+    <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+  </footer>
+
   <script>
     function showSemester(id) {
-      // Hide all semester content
       const semesters = document.querySelectorAll('.semester');
       semesters.forEach(sem => sem.classList.remove('active'));
 
-      // Deactivate all buttons
-      const buttons = document.querySelectorAll('.navbar button');
-      buttons.forEach(btn => btn.classList.remove('active'));
+      const syllabus = document.getElementById('syllabus');
+      if (syllabus) syllabus.classList.remove('active');
 
-      // Show selected semester
-      document.getElementById(id).classList.add('active');
-
-      // Activate corresponding button
-      document.getElementById('btn-' + id).classList.add('active');
+      if (id === 'syllabus') {
+        if (syllabus) syllabus.classList.add('active');
+      } else {
+        const selected = document.getElementById(id);
+        if (selected) selected.classList.add('active');
+      }
     }
   </script>
 </body>
