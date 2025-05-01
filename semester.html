@@ -215,6 +215,7 @@
   <main class="section">
     <div class="semester-buttons">
       <button onclick="showSemester('syllabus')">Syllabus</button>
+      <button onclick="showSemester('previousYear')">Previous Year</button>
       <button onclick="showSemester('sem1')">Semester 1</button>
       <button onclick="showSemester('sem2')">Semester 2</button>
       <button onclick="showSemester('sem3')">Semester 3</button>
@@ -230,6 +231,66 @@
   </div>
   <div class="download-button" style="margin-top: 10px;">
     <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" download>Download Syllabus PDF</a>
+  </div>
+</div>
+
+<!-- Previous Year Section -->
+<div id="previousYear" class="semester">
+  <h2>Previous Year Question Papers</h2>
+  <div class="semester-buttons">
+    <button onclick="showPrevYearSem('prevSem1')">Sem 1</button>
+    <button onclick="showPrevYearSem('prevSem2')">Sem 2</button>
+    <button onclick="showPrevYearSem('prevSem3')">Sem 3</button>
+    <button onclick="showPrevYearSem('prevSem4')">Sem 4</button>
+  </div>
+
+  <!-- Sem 1 Questions -->
+  <div id="prevSem1" class="semester active">
+    <ul class="subjects">
+      <li>Previous Year (1st Sem)
+        <span class="upload-controls">
+          <a href="prev/sem1/electronic.pdf" target="_blank">View PDF</a>
+          <a href="prev/sem1/electronic.pdf" download>Download PDF</a>
+        </span>
+      </li>
+      <!-- Add more subjects similarly -->
+    </ul>
+  </div>
+
+  <!-- Sem 2 Questions -->
+  <div id="prevSem2" class="semester">
+    <ul class="subjects">
+      <li>Previous Year (2nd Sem)
+        <span class="upload-controls">
+          <a href="prev/sem2/solid_state.pdf" target="_blank">View PDF</a>
+          <a href="prev/sem2/solid_state.pdf" download>Download PDF</a>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Sem 3 Questions -->
+  <div id="prevSem3" class="semester">
+    <ul class="subjects">
+      <li>Previous Year (3rd Sem)
+        <span class="upload-controls">
+          <a href="prof/sem3.pdf" target="_blank">View PDF</a>
+          <a href="prof/sem3.pdf" download>Download PDF</a>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Sem 4 Questions -->
+  <div id="prevSem4" class="semester">
+    <ul class="subjects">
+      <li>Previous Year (4th Sem)
+        <span class="upload-controls">
+          <a href="prof/PYQs sem-IV.pdf" target="_blank">View PDF</a>
+          <a href="prof/PYQs sem-IV.pdf" download>Download PDF</a>
+        </span>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -290,17 +351,31 @@
     function showSemester(id) {
       const semesters = document.querySelectorAll('.semester');
       semesters.forEach(sem => sem.classList.remove('active'));
-
+  
       const syllabus = document.getElementById('syllabus');
       if (syllabus) syllabus.classList.remove('active');
-
+  
       if (id === 'syllabus') {
         if (syllabus) syllabus.classList.add('active');
       } else {
         const selected = document.getElementById(id);
         if (selected) selected.classList.add('active');
+  
+        // Reset nested previous year semesters
+        if (id === 'previousYear') {
+          showPrevYearSem('prevSem1');
+        }
       }
     }
+  
+    function showPrevYearSem(id) {
+      const prevSems = document.querySelectorAll('#previousYear .semester');
+      prevSems.forEach(sem => sem.classList.remove('active'));
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+    }
+  </script>
+  
   </script>
 </body>
 </html>
