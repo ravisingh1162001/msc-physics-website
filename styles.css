@@ -1,26 +1,34 @@
-/* styles.css */
-
+/* ===== Base Styles ===== */
 :root {
-  --primary-color: #e50914;
-  --dark-bg: #141414;
-  --light-text: #ffffff;
-  --section-bg: #1f1f1f;
-  --accent-color: #ff9900;
+  --primary: #e50914;
+  --dark: #141414;
+  --light: #ffffff;
+  --gray: #2a2a2a;
+  --accent: #facc15;
+  --card-bg: rgba(255, 255, 255, 0.05);
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-  font-family: 'Helvetica Neue', sans-serif;
-  background-color: var(--dark-bg);
-  color: var(--light-text);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
   line-height: 1.6;
 }
 
+/* ===== Layout Styles ===== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== Header Styles ===== */
 header {
   background-color: #000;
   padding: 1rem 2rem;
@@ -30,12 +38,14 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid var(--gray);
 }
 
 .logo {
+  color: var(--primary);
   font-size: 1.8rem;
-  color: var(--primary-color);
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 nav ul {
@@ -44,116 +54,295 @@ nav ul {
   list-style: none;
 }
 
-nav ul li a {
-  color: var(--light-text);
+nav a {
+  color: var(--light);
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.3s;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s;
 }
 
-nav ul li a:hover {
-  color: var(--accent-color);
+nav a:hover, nav a.active {
+  background-color: var(--primary);
+}
+
+/* ===== Main Content Styles ===== */
+main {
+  padding: 2rem 0;
+  min-height: calc(100vh - 160px);
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--accent);
 }
 
 .section {
-  padding: 4rem 2rem;
-  background-color: var(--section-bg);
-  margin: 1rem 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  transition: transform 0.3s ease;
+  background-color: var(--gray);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
-.section:hover {
-  transform: scale(1.02);
+/* ===== Card Styles ===== */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* ===== Button Styles ===== */
+.btn {
+  display: inline-block;
+  background-color: var(--primary);
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background-color: #b20710;
+}
+
+/* ===== Footer Styles ===== */
 footer {
   background-color: #000;
   text-align: center;
-  padding: 2rem;
-  font-size: 0.9rem;
-  color: #aaa;
+  padding: 1.5rem;
   margin-top: 2rem;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--gray);
 }
-.semester-buttons {
+
+/* ===== Page-Specific Styles ===== */
+
+/* About Page */
+.about-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.about-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.facilities-list {
+  margin: 1rem 0 0 1.5rem;
+}
+
+/* Professor Page */
+.faculty-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 2rem;
+}
+
+.faculty-sidebar {
+  background-color: var(--gray);
+  padding: 1.5rem;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.department-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.dept-btn {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  background: transparent;
+  color: var(--light);
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dept-btn:hover, .dept-btn.active {
+  background-color: var(--primary);
+}
+
+.faculty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Semester Page */
+.semester-tabs {
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 30px;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
 
-.semester-buttons button {
-  background-color: #e50914;
+.tab-btn {
+  padding: 0.7rem 1.5rem;
+  background-color: var(--gray);
   border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 8px;
+  color: var(--light);
   cursor: pointer;
+  border-radius: 6px 6px 0 0;
 }
 
-.semester-buttons button:hover {
-  background-color: #ff1f1f;
+.tab-btn.active {
+  background-color: var(--primary);
 }
 
-.semester {
+.tab-content {
   display: none;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 30px;
-  border-radius: 15px;
-  max-width: 900px;
-  margin: auto;
+  padding: 1.5rem;
+  background-color: var(--gray);
+  border-radius: 0 8px 8px 8px;
 }
 
-.semester.active {
+.tab-content.active {
   display: block;
 }
 
-.semester h2 {
-  color: #ffdd57;
+.syllabus-card {
+  background-color: rgba(0,0,0,0.4);
+  padding: 1.5rem;
+  border-radius: 8px;
   text-align: center;
 }
 
-ul.subjects {
-  list-style: none;
-  padding-left: 0;
-}
-
-ul.subjects li {
-  background-color: #222;
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin: 10px 0;
+.doc-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-.upload-controls {
+/* Students Page */
+.year-selector {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.upload-controls input[type="file"] {
-  display: none;
-}
-
-.upload-controls label,
-.upload-controls button {
-  background-color: #e50914;
+.year-btn {
+  padding: 0.5rem 1rem;
+  background-color: var(--gray);
   border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 5px;
+  color: var(--light);
   cursor: pointer;
-  font-size: 0.9em;
+  border-radius: 4px;
 }
 
-.upload-controls label:hover,
-.upload-controls button:hover {
-  background-color: #ff1f1f;
+.year-btn.active {
+  background-color: var(--primary);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item {
+  height: 200px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Alumni Page */
+.alumni-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.alumni-filters select {
+  padding: 0.5rem;
+  background-color: var(--gray);
+  color: var(--light);
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+.alumni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.alumni-card {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+  }
+
+  .faculty-container {
+    grid-template-columns: 1fr;
+  }
+
+  .doc-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .semester-tabs, .year-selector {
+    flex-direction: column;
+  }
 }
