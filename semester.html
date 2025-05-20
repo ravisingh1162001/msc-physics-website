@@ -1,395 +1,1149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Semester | DTU MSC Physics</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semester | DTU MSC Physics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+    <style>
+        :root {
+            --primary: #003366;
+            --secondary: #E74C3C;
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --highlight: #3498DB;
+        }
 
-    header {
-      background-color: #000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      flex-wrap: wrap;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #e50914;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FAFAFA;
+            color: #333;
+            line-height: 1.8;
+        }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      padding: 0;
-      margin: 0;
-    }
+        header {
+            background: linear-gradient(135deg, var(--primary), #004080);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    nav ul li a {
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s;
-    }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-    nav ul li a:hover {
-      background-color: #e50914;
-    }
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
-    .semester-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px 0;
-    }
+        .logo span {
+            color: var(--secondary);
+        }
 
-    .semester-buttons button {
-      background-color: #e50914;
-      color: white;
-      font-size: 16px;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    .semester-buttons button:hover {
-      background-color: #b20710;
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
 
-    .section {
-      padding: 20px;
-    }
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
 
-    .semester {
-      display: none;
-      background-color: #000;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('image/lib.jpg') center/cover no-repeat;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
 
-    .semester.active {
-      display: block;
-    }
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
 
-    .semester h2 {
-      color: #ffd700;
-      margin-bottom: 20px;
-      text-align: center;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
 
-    .subjects {
-      list-style: none;
-      padding: 0;
-    }
+        .semester-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
 
-    .subjects li {
-      background-color: #222;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .semester-tab {
+            padding: 0.8rem 1.5rem;
+            background-color: white;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
 
-    .upload-controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
+        .semester-tab:hover {
+            background-color: rgba(0, 51, 102, 0.1);
+        }
 
-    .upload-controls label {
-      background-color: #e50914;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
+        .semester-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .upload-controls input[type="file"] {
-      display: none;
-    }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
 
-    .upload-controls button {
-      background-color: #e50914;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      color: white;
-      cursor: pointer;
-    }
+        .tab-content.active {
+            display: block;
+        }
 
-    .upload-controls button:hover,
-    .upload-controls label:hover {
-      background-color: #b20710;
-    }
-    .upload-controls a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 6px 10px;
-  border-radius: 6px;
-  background-color: #e50914;
-  transition: background-color 0.3s;
-}
+        .syllabus-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
 
-.upload-controls a:hover {
-  background-color: #b20710;
-}
+        .syllabus-card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
 
+        .syllabus-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-    .syllabus-container {
-      display: none;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 900px;
-      margin: auto;
-    }
+        .doc-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
 
-    .syllabus-container.active {
-      display: block;
-    }
+        .doc-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
-    .syllabus-container h2 {
-      color: #ffdd57;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        .doc-btn.primary {
+            background-color: var(--primary);
+            color: white;
+        }
 
-    .syllabus-container iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
+        .doc-btn.secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
 
-    .download-button {
-      display: flex;
-      justify-content: center;
-    }
+        .doc-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
 
-    .download-button a {
-      background-color: #e50914;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-size: 1em;
-      border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
-    }
+        .semester-content {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+        }
 
-    .download-button a:hover {
-      background-color: #ff1f1f;
-    }
+        .semester-title {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+        }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #000;
-      color: #888;
-      margin-top: 40px;
-    }
-  </style>
+        .subject-list {
+            list-style: none;
+        }
+
+        .subject-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .subject-item:last-child {
+            border-bottom: none;
+        }
+
+        .subject-name {
+            font-weight: 500;
+            color: var(--dark);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .subject-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn.view {
+            background-color: rgba(0, 51, 102, 0.1);
+            color: var(--primary);
+        }
+
+        .action-btn.download {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--secondary);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .year-selector {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .year-btn {
+            padding: 0.6rem 1.2rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .year-btn:hover {
+            background-color: rgba(0, 51, 102, 0.1);
+        }
+
+        .year-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .doc-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .subject-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .subject-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="semester.html" class="active">Semester</a></li>
+                    <li><a href="professor.html">Professor</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="alumni.html">Alumni</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <header>
-    <div class="logo">DTU MSC Physics</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="semester.html">Semester</a></li>
-        <li><a href="Professor.html">Professor</a></li>
-        <li><a href="students.html">Students</a></li>
-        <li><a href="alumni.html">Alumni</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
+    <section class="page-header">
+        <h1>Semester Information</h1>
+    </section>
 
-  <main class="section">
-    <div class="semester-buttons">
-      <button onclick="showSemester('syllabus')">Syllabus</button>
-      <button onclick="showSemester('previousYear')">Previous Year</button>
-      <button onclick="showSemester('sem1')">Semester 1</button>
-      <button onclick="showSemester('sem2')">Semester 2</button>
-      <button onclick="showSemester('sem3')">Semester 3</button>
-      <button onclick="showSemester('sem4')">Semester 4</button>
+    <div class="container">
+        <div class="semester-tabs">
+            <button class="semester-tab active" data-tab="syllabus">Syllabus</button>
+            <button class="semester-tab" data-tab="previous-year">Previous Year</button>
+            <button class="semester-tab" data-tab="sem1">Semester 1</button>
+            <button class="semester-tab" data-tab="sem2">Semester 2</button>
+            <button class="semester-tab" data-tab="sem3">Semester 3</button>
+            <button class="semester-tab" data-tab="sem4">Semester 4</button>
+        </div>
+
+        <!-- Syllabus Tab -->
+        <div id="syllabus" class="tab-content active">
+            <div class="syllabus-card">
+                <h2>M.Sc. Physics Syllabus</h2>
+                <p>Complete curriculum for all four semesters covering core and elective subjects in advanced physics</p>
+                <div class="doc-actions">
+                    <a href="image/Syllabus.pdf" class="doc-btn primary" target="_blank">
+                        <i class="fas fa-eye"></i> View Syllabus PDF
+                    </a>
+                    <a href="image/Syllabus.pdf" class="doc-btn secondary" download>
+                        <i class="fas fa-download"></i> Download Syllabus
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Previous Year Tab -->
+        <div id="previous-year" class="tab-content">
+            <div class="year-selector">
+                <button class="year-btn active" data-year="all">All Years</button>
+                
+                <button class="year-btn" data-year="2024">2024</button>
+                <button class="year-btn" data-year="2023">2023</button>
+                <button class="year-btn" data-year="2022">2022</button>
+                
+            </div>
+
+            <div class="semester-content">
+                <h3 class="semester-title">Previous Year Question Papers</h3>
+                <ul class="subject-list">
+                    <!-- Semester 1 Papers -->
+                    <li class="subject-item" data-year="2024" data-sem="sem1">
+                        <span class="subject-name">Semester 1</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2024
+                            </a>
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2024" data-sem="sem2">
+                        <span class="subject-name">Semester 2</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2024
+                            </a>
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- Semester 2 Papers -->
+                    <li class="subject-item" data-year="2024" data-sem="sem3">
+                        <span class="subject-name">Semester 3</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2024
+                            </a>
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2024" data-sem="sem4">
+                        <span class="subject-name">Semester 4</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2024
+                            </a>
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                                <!-- Semester 1 Papers -->
+                    <li class="subject-item" data-year="2023" data-sem="sem1">
+                        <span class="subject-name">Semester 1</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2023
+                            </a>
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2023" data-sem="sem2">
+                        <span class="subject-name">Semester 2</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2023
+                            </a>
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- Semester 2 Papers -->
+                    <li class="subject-item" data-year="2023" data-sem="sem3">
+                        <span class="subject-name">Semester 3</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2023
+                            </a>
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2023" data-sem="sem4">
+                        <span class="subject-name">Semester 4</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2023
+                            </a>
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+
+                                                   <!-- Semester 1 Papers -->
+                    <li class="subject-item" data-year="2022" data-sem="sem1">
+                        <span class="subject-name">Semester 1</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2022
+                            </a>
+                            <a href="docs/pyq/2025/sem1/electronic.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2022" data-sem="sem2">
+                        <span class="subject-name">Semester 2</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2022
+                            </a>
+                            <a href="docs/pyq/2025/sem1/quantum_mechanics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- Semester 2 Papers -->
+                    <li class="subject-item" data-year="2022" data-sem="sem3">
+                        <span class="subject-name">Semester 3</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2022
+                            </a>
+                            <a href="docs/pyq/2025/sem2/solid_state.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item" data-year="2022" data-sem="sem4">
+                        <span class="subject-name">Semester 4</span>
+                        <div class="subject-actions">
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View 2022
+                            </a>
+                            <a href="docs/pyq/2025/sem2/adv_quantum.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    <!-- Add more papers similarly -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semester 1 Tab -->
+        <div id="sem1" class="tab-content">
+            <div class="semester-content">
+                <h3 class="semester-title">Semester 1 Subjects</h3>
+                <ul class="subject-list">
+                    <li class="subject-item">
+                        <span class="subject-name">Electronic</span>
+                        <div class="subject-actions">
+                            <a href="image/Electronic/Electronic.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                            </a>
+
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Applied Optics</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem1/applied_optics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem1/applied_optics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Quantum Mechanics</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem1/quantum_mechanics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem1/quantum_mechanics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Classical Mechanics</span>
+                        <div class="subject-actions">
+                            <a href="image/classical/Unit 4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                                        <a href="image/classical/Class note (Baibhav).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                                            <a href="image/classical/classical 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                                            <a href="image/classical/classical bsc u1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                                            <a href="image/classical/classical bsc u2 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                                            <a href="image/classical/classical bsc u3 str.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                                            <a href="image/classical/classical bsc u4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                                            <a href="image/classical/classical last lect.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                                            <a href="image/classical/classical u3 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9
+                                                            <a href="image/classical/classical u3 3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 10
+                                                            <a href="image/classical/Unit 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 11
+                                                            <a href="image/classical/Unit 3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 12
+                            </a>
+
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Mathematical Physics</span>
+                        <div class="subject-actions">
+                            <a href="image/MP/Equivalence CLasses Online Class Notes.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/MP/Gamma Function.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/MP/group theory.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/MP/Partial Differential Eq Online Class Notes.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/MP/Vector calculus.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/MP/Vector calculus.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+
+                            </a>
+                           
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semester 2 Tab -->
+        <div id="sem2" class="tab-content">
+            <div class="semester-content">
+                <h3 class="semester-title">Semester 2 Subjects</h3>
+                <ul class="subject-list">
+                    <li class="subject-item">
+                        <span class="subject-name">Solid State Physics</span>
+                        <div class="subject-actions">
+                            <a href="image/Ssp/band theory.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Ssp/bonding in solids.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Ssp/Crystal structure ssp u-1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Ssp/lecture 3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4 
+                                <a href="image/Ssp/lecture 4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Ssp/lecture 5.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/Ssp/lecture 6.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/Ssp/lecture 7.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                <a href="image/Ssp/Lecture 8.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9 
+                                <a href="image/Ssp/Lecture 9.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 10
+                                <a href="image/Ssp/Lecture 10.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 11
+                                <a href="image/Ssp/lecture1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 12
+                                <a href="image/Ssp/lecture2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 13
+                                <a href="image/Ssp/left part of Band theory.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 14
+                                <a href="image/Ssp/SSP upto u-1 classnotes.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 15
+                                <a href="image/Ssp/superconductivity.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 16
+                            
+                                
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Electrodynamics</span>
+                        <div class="subject-actions">
+                            <a href="image/Ed/23-24 ED Lecture notes 2.1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Ed/assignment 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Ed/ed assignment 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Ed/ED notes till unit 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/Ed/ed pyqs.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Ed/ED Tutorial 3.1 solved.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/Ed/ed tutorials .pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/Ed/Ed u2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                <a href="image/Ed/ED unit-1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9
+                                <a href="image/Ed/ED_U-3[1].pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 10
+                                <a href="image/Ed/Lectrure notes L3.1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 11
+                                <a href="image/Ed/Lecture notes L 3.2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 12
+                                <a href="image/Ed/Lecture notes L 3.3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 13
+                                <a href="image/Ed/Lecture notes L 3.4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 14
+                                <a href="image/Ed/Lecture notes L 4.1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 15
+                                <a href="image/Ed/Lecture notes L 4.2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 16
+                               </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Computational Methods</span>
+                        <div class="subject-actions">
+                            <a href="image/Computational/computational notes upto mid sem.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Computational/DIFFERENTIATION.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Computational/INTEGRATION.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Computational/INTERPOLATION.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/Computational/ODE.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Computational/ODE_simultaneous.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Advanced Quantum Mechanics</span>
+                        <div class="subject-actions">
+                            <a href="image/AQM/AQM em field u-1 - Copy.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/AQM/AQM u-1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/AQM/aqm unit 2 .pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/AQM/CamScanner 04-27-2024 23.10.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/AQM/dirac field.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/AQM/kg field.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/AQM/QM09.11.23.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/AQM/u3 complete.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                <a href="image/AQM/unit 2 suyash.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9
+                           </a>
+                         
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Statistical Mechanics</span>
+                        <div class="subject-actions">
+                            <a href="image/Sm/Density of States.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                 <a href="image/Sm/sm turorial 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                 <a href="image/Sm/SM tutorial after mid sem.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                 <a href="image/Sm/SM tutorials before mid sem.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                 <a href="image/Sm/Statistical@ Unit -1(Hr Sir).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/MP/Vector calculus.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                            </a>
+                          
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semester 3 Tab -->
+        <div id="sem3" class="tab-content">
+            <div class="semester-content">
+                <h3 class="semester-title">Semester 3 Subjects</h3>
+                <ul class="subject-list">
+                    <li class="subject-item">
+                        <span class="subject-name">Atomic and Molecular Physics</span>
+                        <div class="subject-actions">
+                            <a href="image/Atomic/_RotationalSpectroscopy - 2K18_EP_035 JOSH VISHNOI.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Atomic/amp assignment-01.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Atomic/atomic after mid sem.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Atomic/atomic lect 1-4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/Atomic/atomic Lect 5-6.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Atomic/Rotational Spectroscopy ppt.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/Atomic/Unit 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/Atomic/x-ray spectra and stark effect.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                
+                            </a>
+                           
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Nuclear and Particle Physics</span>
+                        <div class="subject-actions">
+                            <a href="image/Nuclear/AP2EBB~1.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                 <a href="image/Nuclear/APZNZA~4.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                 <a href="image/Nuclear/APZNZA~2.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                 <a href="image/Nuclear/AP0E75~1.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                 <a href="image/Nuclear/APZNZA~3.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                 <a href="image/Nuclear/APZNZA~1.PDF" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                 
+                            </a>
+                                                   
+                          </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Plasma Physics</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem3/plasma_physics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem3/plasma_physics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Fibre and Integrated Optics</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem3/fibre_optics.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem3/fibre_optics.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Characterization Techniques</span>
+                        <div class="subject-actions">
+                            <a href="image/CT/AfM.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/CT/AFM2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/CT/AFM3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/CT/ch 1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/CT/ch 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/CT/ch 3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/CT/ch 4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/CT/Elements_of_X-ray_Diffraction.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                <a href="image/CT/experment AFM Manual.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9
+                                <a href="image/CT/experment SEM Manual.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 10
+                                <a href="image/CT/experment XRD Manual.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 11
+                                <a href="image/CT/MFM1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 12
+                                <a href="image/CT/MFM2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 13
+                                <a href="image/CT/OM1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 14
+                                <a href="image/CT/OM2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 15
+                                <a href="image/CT/OM3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 16
+                                <a href="image/CT/OM4.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 16
+                                <a href="image/CT/SEM 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 17
+                                <a href="image/CT/SEM-TEM (1).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 18
+                                <a href="image/CT/TEM1 (1).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 19
+                                <a href="image/CT/xrd ppt 2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 20
+                                <a href="image/CT/xrd ppt.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 21
+                                <a href="image/CT/Ceramics-Properties-Applications-and-Aerospace-Innovations (1).pptx" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 22
+                                <a href="image/CT/Types-of-Ceramics-and-Their-Manufacture.pptx" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 23
+                             
+
+                            </a>
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Semester 4 Tab -->
+        <div id="sem4" class="tab-content">
+            <div class="semester-content">
+                <h3 class="semester-title">Semester 4 Subjects</h3>
+                <ul class="subject-list">
+                    <li class="subject-item">
+                        <span class="subject-name">Indstrial Waste Management</span>
+                        <div class="subject-actions">
+                            <a href="image/Indstrial/02-Waste-minimization.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                 <a href="image/Indstrial/Comprehensive Explanation of E.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                 <a href="image/Indstrial/Effluent standards.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                 <a href="image/Indstrial/IWM1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                 <a href="image/Indstrial/IWM2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                 <a href="image/Indstrial/SSI.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+
+                               <a href="image/Indstrial/unit 3.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                 <a href="image/Indstrial/Unit 5.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                
+                            </a>
+                            
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Advanced Functional Materials</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem4/functional_materials.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem4/functional_materials.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Lasers and Spectroscopy</span>
+                        <div class="subject-actions">
+                            <a href="docs/notes/sem4/lasers_spectroscopy.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes
+                            </a>
+                            <a href="docs/notes/sem4/lasers_spectroscopy.pdf" class="action-btn download" download>
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
+                    </li>
+
+                        <li class="subject-item">
+                        <span class="subject-name">Advanced Semiconductor</span>
+                        <div class="subject-actions">
+                            <a href="image/Advanced/ASD (U2) renu maam.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Advanced/asd(U1) TYAGI SIR complete.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Advanced/CVD-fundamentals and processes.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Advanced/microwave part-1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/Advanced/microwave part-2.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Advanced/Note 8 Jan 2025 (2).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                <a href="image/Advanced/Note 17 Jan 2025.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 7
+                                <a href="image/Advanced/Note Mar 24, 2025.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 8
+                                <a href="image/Advanced/Nucleation and growth-1.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 9
+                                <a href="image/Advanced/the_materials_science_of_thin_films (2).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 10
+                                <a href="image/Advanced/Vacuum (1).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 11
+                                <a href="image/Advanced/VST (1).pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 12
+                                
+                            </a>
+                            
+                        </div>
+                    </li>
+                    
+                    <li class="subject-item">
+                        <span class="subject-name">Space and Atmospheric Science</span>
+                        <div class="subject-actions">
+                            <a href="image/Astro/AWS.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 1
+                                <a href="image/Astro/CLIMATE.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 2
+                                <a href="image/Astro/Material for Unit-I.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 3
+                                <a href="image/Astro/RADIOSONDE NOTES.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 4
+                                <a href="image/Astro/Unit 5 EVS.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 5
+                                <a href="image/Astro/Upper_Air_Observations_Notes_Final.pdf" class="action-btn view" target="_blank">
+                                <i class="fas fa-eye"></i> View Notes 6
+                                
+                            </a>
+                            
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    <!-- Syllabus -->
-<!-- Syllabus Section -->
-<div id="syllabus" class="syllabus-container">
-  <h2>Syllabus</h2>
-  <div class="download-button">
-    <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" target="_blank">View Syllabus PDF</a>
-  </div>
-  <div class="download-button" style="margin-top: 10px;">
-    <a href="prof/M.Sc. Physics Syllabus SEM I to IV (1).pdf" download>Download Syllabus PDF</a>
-  </div>
-</div>
+    <footer>
+        <div class="footer-content">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <p>Delhi Technological University</p>
+            <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-researchgate"></i></a>
+            </div>
+            
+            <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+        </div>
+    </footer>
 
-<!-- Previous Year Section -->
-<div id="previousYear" class="semester">
-  <h2>Previous Year Question Papers</h2>
-  <div class="semester-buttons">
-    <button onclick="showPrevYearSem('prevSem1')">Sem 1</button>
-    <button onclick="showPrevYearSem('prevSem2')">Sem 2</button>
-    <button onclick="showPrevYearSem('prevSem3')">Sem 3</button>
-    <button onclick="showPrevYearSem('prevSem4')">Sem 4</button>
-  </div>
-
-  <!-- Sem 1 Questions -->
-  <div id="prevSem1" class="semester active">
-    <ul class="subjects">
-      <li>Previous Year (1st Sem)
-        <span class="upload-controls">
-          <a href="prev/sem1/electronic.pdf" target="_blank">View PDF</a>
-          <a href="prev/sem1/electronic.pdf" download>Download PDF</a>
-        </span>
-      </li>
-      <!-- Add more subjects similarly -->
-    </ul>
-  </div>
-
-  <!-- Sem 2 Questions -->
-  <div id="prevSem2" class="semester">
-    <ul class="subjects">
-      <li>Previous Year (2nd Sem)
-        <span class="upload-controls">
-          <a href="prev/sem2/solid_state.pdf" target="_blank">View PDF</a>
-          <a href="prev/sem2/solid_state.pdf" download>Download PDF</a>
-        </span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Sem 3 Questions -->
-  <div id="prevSem3" class="semester">
-    <ul class="subjects">
-      <li>Previous Year (3rd Sem)
-        <span class="upload-controls">
-          <a href="prof/sem3.pdf" target="_blank">View PDF</a>
-          <a href="prof/sem3.pdf" download>Download PDF</a>
-        </span>
-      </li>
-    </ul>
-  </div>
-
-  <!-- Sem 4 Questions -->
-  <div id="prevSem4" class="semester">
-    <ul class="subjects">
-      <li>Previous Year (4th Sem)
-        <span class="upload-controls">
-          <a href="prof/PYQs sem-IV.pdf" target="_blank">View PDF</a>
-          <a href="prof/PYQs sem-IV.pdf" download>Download PDF</a>
-        </span>
-      </li>
-    </ul>
-  </div>
-</div>
-
-
-    <!-- Semester 1 -->
-    <div id="sem1" class="semester active">
-      <h2>Semester 1</h2>
-      <ul class="subjects">
-        <li>Electronic <span class="upload-controls"><label for="file1">Upload</label><input type="file" id="file1"><button>Download</button></span></li>
-        <li>Applied Optics <span class="upload-controls"><label for="file2">Upload</label><input type="file" id="file2"><button>Download</button></span></li>
-        <li>Quantum Mechanics <span class="upload-controls"><label for="file3">Upload</label><input type="file" id="file3"><button>Download</button></span></li>
-        <li>Classical Mechanics <span class="upload-controls"><label for="file4">Upload</label><input type="file" id="file4"><button>Download</button></span></li>
-        <li>Mathematical Physics <span class="upload-controls"><label for="file5">Upload</label><input type="file" id="file5"><button>Download</button></span></li>
-      </ul>
-    </div>
-
-    <!-- Semester 2 -->
-    <div id="sem2" class="semester">
-      <h2>Semester 2</h2>
-      <ul class="subjects">
-        <li>Solid State Physics <span class="upload-controls"><label for="file6">Upload</label><input type="file" id="file6"><button>Download</button></span></li>
-        <li>Electrodynamics <span class="upload-controls"><label for="file7">Upload</label><input type="file" id="file7"><button>Download</button></span></li>
-        <li>Computational Methods <span class="upload-controls"><label for="file8">Upload</label><input type="file" id="file8"><button>Download</button></span></li>
-        <li>Advanced Quantum Mechanics <span class="upload-controls"><label for="file9">Upload</label><input type="file" id="file9"><button>Download</button></span></li>
-        <li>Statistical Mechanics <span class="upload-controls"><label for="file10">Upload</label><input type="file" id="file10"><button>Download</button></span></li>
-      </ul>
-    </div>
-
-    <!-- Semester 3 -->
-    <div id="sem3" class="semester">
-      <h2>Semester 3</h2>
-      <ul class="subjects">
-        <li>Atomic and Molecular Physics <span class="upload-controls"><label for="file11">Upload</label><input type="file" id="file11"><button>Download</button></span></li>
-        <li>Nuclear and Particle Physics <span class="upload-controls"><label for="file12">Upload</label><input type="file" id="file12"><button>Download</button></span></li>
-        <li>Plasma Physics <span class="upload-controls"><label for="file13">Upload</label><input type="file" id="file13"><button>Download</button></span></li>
-        <li>Fibre and Integrated Optics <span class="upload-controls"><label for="file14">Upload</label><input type="file" id="file14"><button>Download</button></span></li>
-        <li>Characterization Techniques <span class="upload-controls"><label for="file15">Upload</label><input type="file" id="file15"><button>Download</button></span></li>
-      </ul>
-    </div>
-
-    <!-- Semester 4 -->
-    <div id="sem4" class="semester">
-      <h2>Semester 4</h2>
-      <ul class="subjects">
-        <li>Advanced Semiconductor Devices <span class="upload-controls"><label for="file16">Upload</label><input type="file" id="file16"><button>Download</button></span></li>
-        <li>Advanced Functional Materials <span class="upload-controls"><label for="file17">Upload</label><input type="file" id="file17"><button>Download</button></span></li>
-        <li>Lasers and Spectroscopy <span class="upload-controls"><label for="file18">Upload</label><input type="file" id="file18"><button>Download</button></span></li>
-        <li>Space and Atmospheric Science <span class="upload-controls"><label for="file19">Upload</label><input type="file" id="file19"><button>Download</button></span></li>
-      </ul>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
-  </footer>
-
-  <script>
-    function showSemester(id) {
-      const semesters = document.querySelectorAll('.semester');
-      semesters.forEach(sem => sem.classList.remove('active'));
-  
-      const syllabus = document.getElementById('syllabus');
-      if (syllabus) syllabus.classList.remove('active');
-  
-      if (id === 'syllabus') {
-        if (syllabus) syllabus.classList.add('active');
-      } else {
-        const selected = document.getElementById(id);
-        if (selected) selected.classList.add('active');
-  
-        // Reset nested previous year semesters
-        if (id === 'previousYear') {
-          showPrevYearSem('prevSem1');
-        }
-      }
-    }
-  
-    function showPrevYearSem(id) {
-      const prevSems = document.querySelectorAll('#previousYear .semester');
-      prevSems.forEach(sem => sem.classList.remove('active'));
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-    }
-  </script>
-  
-  </script>
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Tab and Filter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.semester-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show the selected tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Year filter functionality for previous year papers
+            const yearButtons = document.querySelectorAll('.year-btn');
+            yearButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all year buttons
+                    yearButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get the selected year
+                    const year = this.getAttribute('data-year');
+                    
+                    // Filter subject items
+                    const subjectItems = document.querySelectorAll('#previous-year .subject-item');
+                    subjectItems.forEach(item => {
+                        const itemYears = item.getAttribute('data-year').split(',');
+                        if (year === 'all' || itemYears.includes(year)) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 </html>
