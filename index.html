@@ -1,141 +1,543 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>University Portal</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: url('prof/WhatsApp Image 2025-04-30 at 1.56.32 PM.jpeg') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni | DTU MSC Physics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+    <style>
+        :root {
+            --primary: #003366; /* Deep university blue */
+            --secondary: #E74C3C; /* Vibrant accent */
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --highlight: #3498DB;
+        }
 
-    /* Overlay for contrast */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.85);
-      z-index: -1;
-    }
+               * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
 
-    header {
-      background-color: #000;
-      padding: 20px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FAFAFA;
+            color: #333;
+            line-height: 1.8;
+        }
 
-    .logo {
-      color: red;
-      font-size: 28px;
-      font-weight: bold;
-    }
+        header {
+            background: linear-gradient(135deg, var(--primary), #004080);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 20px;
-      padding: 0;
-      margin: 0;
-    }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-    }
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
 
-    main {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px;
-    }
+        .logo span {
+            color: var(--secondary);
+        }
 
-    .card {
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid #444;
-      border-radius: 12px;
-      padding: 20px;
-      cursor: pointer;
-      transition: transform 0.2s, background-color 0.3s;
-      text-decoration: none;
-      color: white;
-    }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    .card:hover {
-      transform: scale(1.03);
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
 
-    .card h2 {
-      margin-top: 0;
-      color: #facc15;
-    }
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
 
-    footer {
-      background-color: #000;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-    }
-  </style>
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('image/all.jpg') center/cover no-repeat;
+                        
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 2;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.6);
+            background-color: #6f1ad6;
+        }
+
+        .features {
+            padding: 5rem 0;
+            background-color: #f9f9f9;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            color: var(--secondary);
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link:hover {
+            gap: 1rem;
+        }
+
+        
+
+        .news-section {
+            padding: 5rem 0;
+            background-color: white;
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+        }
+
+        .section-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .news-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .news-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .news-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .news-card:hover .news-img img {
+            transform: scale(1.1);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+            background: white;
+        }
+
+        .news-date {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+
+        .news-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .news-excerpt {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .news-link:hover {
+            color: var(--secondary);
+            gap: 1rem;
+        }
+        footer {
+    background-color: var(--dark);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-content .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer-content p {
+    margin: 0.3rem 0;
+}
+
+.social-links {
+    margin: 1rem 0;
+}
+
+.social-links a {
+    color: white;
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--secondary);
+}
+
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="logo">DTU MSC Physics</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="semester.html">Semester</a></li>
-        <li><a href="Professor.html">Professor</a></li>
-        <li><a href="students.html">Students</a></li>
-        <li><a href="alumni.html">Alumni</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header>
+        <div class="nav-container">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="semester.html">Semester</a></li>
+                    <li><a href="professor.html">Professor</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="alumni.html">Alumni</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-  <main>
-    <a href="index.html" class="card">
-      <h2>Welcome to DTU MSC Physics</h2>
-      <p>Explore our academic offerings and vibrant campus life.</p>
-    </a>
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <h1>Welcome to DTU MSC Physics</h1>
+        <p>Advancing scientific knowledge through cutting-edge research and education</p>
+        <a href="about.html" class="hero-btn">Explore Our Department</a>
+    </div>
+    <button onclick="nextBackground()" style="position: absolute; bottom: 20px; right: 20px; background-color: var(--secondary); color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Change Image</button>
+</section>
 
-    <a href="semester.html" class="card">
-      <h2>Semester Details</h2>
-      <p>Info about courses, exams, and academic calendar.</p>
-    </a>
 
-    <a href="Professor.html" class="card">
-      <h2>Professor Profiles</h2>
-      <p>Meet our expert faculty members.</p>
-    </a>
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Semester Details</h3>
+                <p>Explore our comprehensive curriculum, course offerings, and academic resources for each semester.</p>
+                <a href="semester.html" class="feature-link">
+                    View Courses <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
 
-    <a href="students.html" class="card">
-      <h2>Student Information</h2>
-      <p>Discover student life and resources.</p>
-    </a>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Faculty Profiles</h3>
+                <p>Meet our distinguished professors and researchers who are leaders in their respective fields.</p>
+                <a href="professor.html" class="feature-link">
+                    Meet Faculty <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
 
-    <a href="alumni.html" class="card">
-      <h2>Alumni Stories</h2>
-      <p>See what our graduates are doing around the world.</p>
-    </a>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Student Life</h3>
+                <p>Discover campus activities, research opportunities, and student organizations.</p>
+                <a href="students.html" class="feature-link">
+                    Campus Life <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <a href="about.html" class="card">
-      <h2>About the University</h2>
-      <p>Learn more about our history, mission, and values.</p>
-    </a>
-  </main>
+    <section class="news-section">
+        <div class="news-container">
+            <div class="section-header">
+                <h2>Latest News & Events</h2>
+                <p>Stay updated with the latest research breakthroughs, seminars, and department announcements</p>
+            </div>
 
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="image/de (1).jpg" alt="Quantum Research">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">May 15, 2025</div>
+                        <h3 class="news-title">Breakthrough in Quantum Materials Research</h3>
+                        <p class="news-excerpt">Our team has discovered novel properties in topological materials that could revolutionize quantum computing.</p>
+                        <a href="#" class="news-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="image/et.jpg" alt="Physics Conference">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">April 28, 2025</div>
+                        <h3 class="news-title">Annual Physics Symposium 2025</h3>
+                        <p class="news-excerpt">Join us for our flagship event featuring talks from Nobel laureates and industry pioneers.</p>
+                        <a href="#" class="news-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="image/al.jpg" alt="Student Achievement">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-date">March 10, 2025</div>
+                        <h3 class="news-title">Student Team Wins National Competition</h3>
+                        <p class="news-excerpt">Our graduate students secured first place in the National Physics Innovation Challenge.</p>
+                        <a href="#" class="news-link">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <p>Delhi Technological University</p>
+            <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-researchgate"></i></a>
+            </div>
+            
+            <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Smooth scroll script -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <script>
+    const images = [
+        'image/N1 (1).jpg',
+        'image/N1 (2).jpg',
+        'image/N1 (3).jpg',
+        'image/N1 (4).jpg',
+        'image/N1 (5).jpg'
+    ];
+
+    let currentIndex = 0;
+
+    function updateHeroBackground() {
+        const hero = document.getElementById('hero');
+        hero.style.background = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${images[currentIndex]}') center/cover no-repeat`;
+    }
+
+    function nextBackground() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateHeroBackground();
+    }
+
+    // Start the slideshow automatically
+    setInterval(nextBackground, 5000);
+</script>
 
 </body>
 </html>
