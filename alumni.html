@@ -1,83 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alumni | DTU MSC Physics</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
-    <style>
-        :root {
-            --primary: #003366; /* Deep university blue */
-            --secondary: #E74C3C; /* Vibrant accent */
-            --dark: #2C3E50;
-            --light: #ECF0F1;
-            --highlight: #3498DB;
-        }
+    <link rel="stylesheet" href="styles.css">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+</head>
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FAFAFA;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), #004080);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: var(--secondary);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-        }
-
+<style> 
         .hero {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('image/moj.jpg') center/cover no-repeat;
@@ -88,228 +18,14 @@
             text-align: center;
             color: white;
         }
-
-        .hero-content h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-        }
-
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .filter-group label {
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        .filter-select {
-            padding: 0.6rem 1rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            min-width: 180px;
-            background-color: white;
-            transition: all 0.3s ease;
-        }
-
-        .filter-select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
-        }
-
-        .alumni-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .alumni-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .alumni-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .alumni-img {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .alumni-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .alumni-card:hover .alumni-img img {
-            transform: scale(1.1);
-        }
-
-        .alumni-batch {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .alumni-content {
-            padding: 1.5rem;
-        }
-
-        .alumni-name {
-            color: var(--primary);
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .alumni-position {
-            color: var(--secondary);
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-
-        .alumni-company {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .alumni-company i {
-            color: var(--primary);
-        }
-
-        .alumni-achievements {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 1rem;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
-
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--secondary);
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-
-            .filters {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-        }
-    </style>
-</head>
+        </style> 
 <body>
     <header>
         <div class="nav-container">
             <div class="logo">DTU <span>MSC Physics</span></div>
             <nav>
                 <ul>
-                    <li><a href="main.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="semester.html">Semester</a></li>
                     <li><a href="professor.html">Professor</a></li>
                     <li><a href="students.html">Students</a></li>
@@ -452,46 +168,7 @@
 
     <!-- Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    
-    <!-- Alumni Filter Script -->
-    <script>
-     document.addEventListener('DOMContentLoaded', function() {
-    const batchFilter = document.getElementById('batch-filter');
-    const industryFilter = document.getElementById('industry-filter');
-    const alumniCards = document.querySelectorAll('.alumni-card');
+    <script src="script.js"></script>
 
-    function filterAlumni() {
-        const batchValue = batchFilter.value;
-        const industryValue = industryFilter.value;
-
-        alumniCards.forEach(card => {
-            const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0]; // This will get just the year
-            const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
-            
-            const batchMatch = batchValue === 'all' || cardBatch === batchValue;
-            let industryMatch = industryValue === 'all';
-            
-            if (industryValue === 'academia' && (cardPosition.includes('professor') || cardPosition.includes('lecturer'))) {
-                industryMatch = true;
-            } else if (industryValue === 'research' && cardPosition.includes('research')) {
-                industryMatch = true;
-            } else if (industryValue === 'industry' && !cardPosition.includes('research') && !cardPosition.includes('professor') && !cardPosition.includes('lecturer')) {
-                industryMatch = true;
-            } else if (industryValue === 'entrepreneurship' && (cardPosition.includes('founder') || cardPosition.includes('ceo') || cardPosition.includes('cto'))) {
-                industryMatch = true;
-            }
-            
-            if (batchMatch && industryMatch) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    batchFilter.addEventListener('change', filterAlumni);
-    industryFilter.addEventListener('change', filterAlumni);
-});
-    </script>
 </body>
 </html>
