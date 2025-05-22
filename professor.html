@@ -1,84 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Faculty | DTU MSC Physics</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
-    <style>
-        :root {
-            --primary: #003366; /* Deep university blue */
-            --secondary: #E74C3C; /* Vibrant accent */
-            --dark: #2C3E50;
-            --light: #ECF0F1;
-            --highlight: #3498DB;
-            --card-bg: #FFFFFF;
-        }
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FAFAFA;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), #004080);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: var(--secondary);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-        }
-
+<style> 
         .page-header {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('image/pic11 (1).jpg') center/cover no-repeat;
@@ -90,263 +19,15 @@
             color: white;
             margin-bottom: 4rem;
         }
+</style> 
 
-        .page-header h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .faculty-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem 4rem;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-        }
-
-        .faculty-sidebar {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            height: fit-content;
-            position: sticky;
-            top: 120px;
-        }
-
-        .faculty-sidebar h2 {
-            color: var(--primary);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--secondary);
-        }
-
-        .department-list {
-            list-style: none;
-        }
-
-        .department-item {
-            margin-bottom: 0.5rem;
-        }
-
-        .dept-btn {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            text-align: left;
-            background: transparent;
-            color: var(--dark);
-            border: none;
-            cursor: pointer;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .dept-btn i {
-            color: var(--primary);
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-        }
-
-        .dept-btn:hover, .dept-btn.active {
-            background-color: rgba(0, 51, 102, 0.1);
-            color: var(--primary);
-        }
-
-        .dept-btn:hover i, .dept-btn.active i {
-            color: var(--secondary);
-        }
-
-        .dept-btn.active {
-            background-color: rgba(0, 51, 102, 0.08);
-            font-weight: 600;
-        }
-
-        .faculty-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .faculty-card {
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .faculty-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
-        }
-
-        .faculty-img {
-            height: 250px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .faculty-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .faculty-card:hover .faculty-img img {
-            transform: scale(1.05);
-        }
-
-        .faculty-badge {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 1.2rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 0 6px 0 0;
-        }
-
-        .faculty-content {
-            padding: 1.8rem;
-        }
-
-        .faculty-name {
-            color: var(--primary);
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .faculty-title {
-            color: var(--secondary);
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .faculty-expertise {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .faculty-expertise i {
-            color: var(--primary);
-        }
-
-        .faculty-research {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .faculty-links {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .faculty-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            background: rgba(0, 51, 102, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .faculty-link:hover {
-            background: rgba(231, 76, 60, 0.15);
-            color: var(--secondary);
-            gap: 0.8rem;
-        }
-
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--secondary);
-        }
-
-        @media (max-width: 1024px) {
-            .faculty-container {
-                grid-template-columns: 1fr;
-            }
-
-            .faculty-sidebar {
-                position: static;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .page-header h1 {
-                font-size: 2.2rem;
-            }
-
-            .faculty-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
 <body>
     <header>
         <div class="nav-container">
             <div class="logo">DTU <span>MSC Physics</span></div>
             <nav>
                 <ul>
-                    <li><a href="main.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="semester.html">Semester</a></li>
                     <li><a href="professor.html" class="active">Professor</a></li>
                     <li><a href="students.html">Students</a></li>
@@ -628,7 +309,7 @@
                         <span>M.Sc, PhD</span>
                     </div>
                     <p class="faculty-research">
-                       Theoretical condensed matter physics, spintronics, Quantum Physics.
+                       Theoretical condensed matter physics, spintronics.
                     </p>
                     <div class="faculty-links">
                         <a href="#" class="faculty-link">
@@ -1031,40 +712,7 @@
 
     <!-- Font Awesome for icons -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    
-    <!-- Faculty Filter Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deptButtons = document.querySelectorAll('.dept-btn');
-            const facultyCards = document.querySelectorAll('.faculty-card');
+    <script src="script.js"></script>
 
-            deptButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    deptButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    // Get the department filter
-                    const filter = this.textContent.trim().toLowerCase();
-                    
-                    // Filter faculty cards
-                    facultyCards.forEach(card => {
-                        if (filter === 'all faculty') {
-                            card.style.display = 'block';
-                        } else {
-                            const cardText = card.textContent.toLowerCase();
-                            if (cardText.includes(filter)) {
-                                card.style.display = 'block';
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }
-                    });
-                });
-            });
-        });
-    </script>
 </body>
 </html>
