@@ -202,3 +202,45 @@ function initGalleryPage() {
         });
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching functionality
+    const tabs = document.querySelectorAll('.semester-tab');
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active'); // Add active to clicked tab
+            
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show the selected tab content
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // Year filter functionality for previous year papers
+    const yearButtons = document.querySelectorAll('.year-btn');
+    yearButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            yearButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const year = this.getAttribute('data-year');
+            const subjectItems = document.querySelectorAll('#previous-year .subject-item');
+            
+            subjectItems.forEach(item => {
+                const itemYear = item.getAttribute('data-year');
+                if (year === 'all' || itemYear === year) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
