@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | DTU MSC Physics</title>
+  <meta name="google-signin-client_id" content="813200846779-vfglturmvrsalnkgemdlckqbvcg9e1l1.apps.googleusercontent.com" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; background: #f5f6fa; }
+    .login-container { max-width: 350px; margin: 80px auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.09); padding: 2rem 2rem 1.5rem 2rem; }
+    .login-container h2 { text-align: center; color: #003366; margin-bottom: 1.5rem; }
+    #g_id_signin { display: flex; justify-content: center; }
+  </style>
+  <script>
+    function handleCredentialResponse(response) {
+      // User is authenticated with Google, you can decode the JWT for profile info if needed
+      localStorage.setItem("loggedIn", "true");
+      window.location.href = "index.html";
+    }
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "813200846779-vfglturmvrsalnkgemdlckqbvcg9e1l1.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
+      );
+    }
+  </script>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login with Google</h2>
+    <div id="g_id_signin"></div>
+  </div>
+</body>
+</html>
