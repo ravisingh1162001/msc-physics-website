@@ -1,6 +1,10 @@
-// Common functionality for all pages
-document.addEventListener('DOMContentLoaded', function() {
-    // Smooth scroll for anchor links (all pages)
+// script.js - Modularized Version
+
+// ========================
+// Common Functionality
+// ========================
+document.addEventListener('DOMContentLoaded', () => {
+    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -8,11 +12,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target) target.scrollIntoView({ behavior: 'smooth' });
         });
     });
+
+    // Initialize page-specific features
+    initHomePage();
+    initSemesterPage();
+    initFacultyPage();
+    initAlumniPage();
+    initGalleryPage();
 });
 
-// Home Page Specific Code
+// ========================
+// Home Page Features
+// ========================
 function initHomePage() {
-    // Hero Slider
+    // Hero Image Slider
     const hero = document.getElementById('hero');
     if (hero) {
         const images = [
@@ -24,20 +37,20 @@ function initHomePage() {
         ];
 
         let currentIndex = 0;
-
-        function updateHeroBackground() {
+        const updateBackground = () => {
             hero.style.background = `linear-gradient(rgba(0,0,0,0.7), url('${images[currentIndex]}') center/cover no-repeat`;
-        }
+        };
 
-        function nextBackground() {
+        const nextBackground = () => {
             currentIndex = (currentIndex + 1) % images.length;
-            updateHeroBackground();
-        }
-
+            updateBackground();
+        };
+        
         setInterval(nextBackground, 5000);
+        updateBackground();
     }
 
-    // Semester Tabs (Home Page)
+    // Semester Tabs
     const semesterTabs = document.querySelectorAll('.semester-tab');
     if (semesterTabs.length > 0) {
         semesterTabs.forEach(tab => {
@@ -47,32 +60,66 @@ function initHomePage() {
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
                 });
-                document.getElementById(this.dataset.tab).classList.add('active');
+                document.getElementById(this.dataset.tab)?.classList.add('active');
             });
         });
     }
 }
 
-// Previous Year Papers Page
-function initPreviousYearPage() {
-    const yearButtons = document.querySelectorAll('.year-btn');
-    if (yearButtons.length > 0) {
-        yearButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                yearButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                const year = this.dataset.year;
-                document.querySelectorAll('#previous-year .subject-item').forEach(item => {
-                    item.style.display = (year === 'all' || item.dataset.year.split(',').includes(year)) 
-                        ? 'flex' 
-                        : 'none';
-                });
+// ========================
+// Alumni Page Features
+// ========================
+function initAlumniPage() {
+    const batchFilter = document.getElementById('batch-filter');
+    const industryFilter = document.getElementById('industry-filter');
+    
+    if (batchFilter && industryFilter) {
+        const filterAlumni = () => {
+            const batchValue = batchFilter.value;
+            const industryValue = industryFilter.value;
+
+            document.querySelectorAll('.alumni-card').forEach(card => {
+                const cardBatch = card.querySelector('.alumni-batch')?.textContent.split(' ')[0];
+                const cardPosition = card.querySelector('.alumni-position')?.textContent.toLowerCase();
+                
+                const batchMatch = batchValue === 'all' || cardBatch === batchValue;
+                let industryMatch = false;
+
+                switch(industryValue) {
+                    case 'all':
+                        industryMatch = true;
+                        break;
+                    case 'academia':
+                        industryMatch = cardPosition?.includes('professor') || cardPosition?.includes('lecturer');
+                        break;
+                    case 'research':
+                        industryMatch = cardPosition?.includes('research');
+                        break;
+                    case 'industry':
+                        industryMatch = !cardPosition?.includes('research') && 
+                                      !cardPosition?.includes('professor') && 
+                                      !cardPosition?.includes('lecturer');
+                        break;
+                    case 'entrepreneurship':
+                        industryMatch = cardPosition?.includes('founder') || 
+                                      cardPosition?.includes('ceo') || 
+                                      cardPosition?.includes('cto');
+                        break;
+                }
+
+                card.style.display = (batchMatch && industryMatch) ? 'block' : 'none';
             });
-        });
+        };
+
+        batchFilter.addEventListener('change', filterAlumni);
+        industryFilter.addEventListener('change', filterAlumni);
+        filterAlumni(); // Initial filter
     }
 }
 
-// Faculty Page
+// ========================
+// Faculty Page Features
+// ========================
 function initFacultyPage() {
     const deptButtons = document.querySelectorAll('.dept-btn');
     if (deptButtons.length > 0) {
@@ -81,8 +128,10 @@ function initFacultyPage() {
                 deptButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 const filter = this.textContent.trim().toLowerCase();
+                
                 document.querySelectorAll('.faculty-card').forEach(card => {
-                    card.style.display = (filter === 'all faculty' || card.textContent.toLowerCase().includes(filter))
+                    const cardText = card.textContent.toLowerCase();
+                    card.style.display = (filter === 'all faculty' || cardText.includes(filter))
                         ? 'block'
                         : 'none';
                 });
@@ -91,43 +140,32 @@ function initFacultyPage() {
     }
 }
 
-// Alumni Page
-function initAlumniPage() {
-    const batchFilter = document.getElementById('batch-filter');
-    const industryFilter = document.getElementById('industry-filter');
-    if (batchFilter && industryFilter) {
-        const filterAlumni = () => {
-            const batchValue = batchFilter.value;
-            const industryValue = industryFilter.value;
-            
-            document.querySelectorAll('.alumni-card').forEach(card => {
-                const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0];
-                const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
+// ========================
+// Semester Page Features
+// ========================
+function initSemesterPage() {
+    const yearButtons = document.querySelectorAll('.year-btn');
+    if (yearButtons.length > 0) {
+        yearButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                yearButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                const year = this.dataset.year;
                 
-                const batchMatch = batchValue === 'all' || cardBatch === batchValue;
-                const industryMatch = checkIndustryMatch(industryValue, cardPosition);
-                
-                card.style.display = (batchMatch && industryMatch) ? 'block' : 'none';
+                document.querySelectorAll('#previous-year .subject-item').forEach(item => {
+                    const itemYears = item.dataset.year.split(',');
+                    item.style.display = (year === 'all' || itemYears.includes(year))
+                        ? 'flex'
+                        : 'none';
+                });
             });
-        };
-
-        const checkIndustryMatch = (industry, position) => {
-            if (industry === 'all') return true;
-            const checks = {
-                academia: () => position.includes('professor') || position.includes('lecturer'),
-                research: () => position.includes('research'),
-                industry: () => !position.includes('research') && !position.includes('professor') && !position.includes('lecturer'),
-                entrepreneurship: () => position.includes('founder') || position.includes('ceo') || position.includes('cto')
-            };
-            return checks[industry] ? checks[industry]() : false;
-        };
-
-        batchFilter.addEventListener('change', filterAlumni);
-        industryFilter.addEventListener('change', filterAlumni);
+        });
     }
 }
 
-// Gallery Page
+// ========================
+// Gallery Page Features
+// ========================
 function initGalleryPage() {
     // Batch Filter
     const batchButtons = document.querySelectorAll('.batch-btn');
@@ -137,6 +175,7 @@ function initGalleryPage() {
                 batchButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
                 const batch = this.dataset.batch;
+                
                 document.querySelectorAll('.gallery-card').forEach(card => {
                     card.style.display = (batch === 'all' || card.dataset.batch === batch)
                         ? 'block'
@@ -153,20 +192,13 @@ function initGalleryPage() {
             tab.addEventListener('click', function() {
                 activityTabs.forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
+                
                 document.querySelectorAll('.activity-content').forEach(content => {
                     content.classList.remove('active');
                 });
-                document.getElementById(this.dataset.tab).classList.add('active');
+                
+                document.getElementById(this.dataset.tab)?.classList.add('active');
             });
         });
     }
 }
-
-// Initialize all page-specific code
-document.addEventListener('DOMContentLoaded', function() {
-    initHomePage();
-    initPreviousYearPage();
-    initFacultyPage();
-    initAlumniPage();
-    initGalleryPage();
-});
