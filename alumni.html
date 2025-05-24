@@ -15,9 +15,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js"></script>
     <style>
-        /* ... Your existing CSS ... */
-        /* (Paste your full CSS here, unchanged for brevity) */
-         :root {
+        /* ... (your CSS remains unchanged) ... */
+        :root {
             --primary: #003366; /* Deep university blue */
             --secondary: #E74C3C; /* Vibrant accent */
             --dark: #2C3E50;
@@ -313,10 +312,7 @@
             }
         }
         
-        
-        
-        
-        /* Add Q&A board styles: */
+        /* Q&A board styles: */
         .qa-container { max-width: 800px; margin: 3rem auto 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ddd; padding: 2rem; }
         .qa-container h2 { text-align: center; color: #003366; margin-bottom: 1.5rem; }
         .qa-input-group { display: flex; margin-bottom: 1.5rem; }
@@ -351,7 +347,6 @@
     </header>
 
     <section class="hero">
-        <!-- ... Your hero section ... -->
         <div class="hero-content">
             <h1>Our Distinguished Alumni</h1>
             <p>Celebrating the achievements of our graduates who are making an impact worldwide</p>
@@ -405,7 +400,7 @@
                     </p>
                 </div>
             </div>
-
+            <!-- ... more alumni cards ... -->
             <!-- Alumni Card 2 -->
             <div class="alumni-card">
                 <div class="alumni-img">
@@ -465,7 +460,7 @@
         </div>
     </main>
 
-    
+    <!-- Q&A Section -->
     <section class="qa-container">
       <h2>Alumni Q&A Board</h2>
       <div class="qa-input-group">
@@ -476,7 +471,6 @@
     </section>
 
     <footer>
-        <!-- ... Your footer code ... -->
         <div class="footer-content">
             <div class="logo">DTU <span>MSC Physics</span></div>
             <p>Delhi Technological University</p>
@@ -492,48 +486,46 @@
             <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
         </div>
     </footer>
-
-    
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- Alumni Filter Script -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-    const batchFilter = document.getElementById('batch-filter');
-    const industryFilter = document.getElementById('industry-filter');
-    const alumniCards = document.querySelectorAll('.alumni-card');
+        const batchFilter = document.getElementById('batch-filter');
+        const industryFilter = document.getElementById('industry-filter');
+        const alumniCards = document.querySelectorAll('.alumni-card');
 
-    function filterAlumni() {
-        const batchValue = batchFilter.value;
-        const industryValue = industryFilter.value;
+        function filterAlumni() {
+            const batchValue = batchFilter.value;
+            const industryValue = industryFilter.value;
 
-        alumniCards.forEach(card => {
-            const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0]; // This will get just the year
-            const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
-            
-            const batchMatch = batchValue === 'all' || cardBatch === batchValue;
-            let industryMatch = industryValue === 'all';
-            
-            if (industryValue === 'academia' && (cardPosition.includes('professor') || cardPosition.includes('lecturer'))) {
-                industryMatch = true;
-            } else if (industryValue === 'research' && cardPosition.includes('research')) {
-                industryMatch = true;
-            } else if (industryValue === 'industry' && !cardPosition.includes('research') && !cardPosition.includes('professor') && !cardPosition.includes('lecturer')) {
-                industryMatch = true;
-            } else if (industryValue === 'entrepreneurship' && (cardPosition.includes('founder') || cardPosition.includes('ceo') || cardPosition.includes('cto'))) {
-                industryMatch = true;
-            }
-            
-            if (batchMatch && industryMatch) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
+            alumniCards.forEach(card => {
+                const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0];
+                const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
+                
+                const batchMatch = batchValue === 'all' || cardBatch === batchValue;
+                let industryMatch = industryValue === 'all';
+                
+                if (industryValue === 'academia' && (cardPosition.includes('professor') || cardPosition.includes('lecturer'))) {
+                    industryMatch = true;
+                } else if (industryValue === 'research' && cardPosition.includes('research')) {
+                    industryMatch = true;
+                } else if (industryValue === 'industry' && !cardPosition.includes('research') && !cardPosition.includes('professor') && !cardPosition.includes('lecturer')) {
+                    industryMatch = true;
+                } else if (industryValue === 'entrepreneurship' && (cardPosition.includes('founder') || cardPosition.includes('ceo') || cardPosition.includes('cto'))) {
+                    industryMatch = true;
+                }
+                
+                if (batchMatch && industryMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
 
-    batchFilter.addEventListener('change', filterAlumni);
-    industryFilter.addEventListener('change', filterAlumni);
-});
+        batchFilter.addEventListener('change', filterAlumni);
+        industryFilter.addEventListener('change', filterAlumni);
+      });
     </script>
     <script src="//code.tidio.co/nuhdxjupf3ald5jsr33xpystkpipicqg.js" async></script>
     <script>
@@ -543,9 +535,9 @@
       }
     </script>
 
-    
+    <!-- Q&A Board Script -->
     <script>
-      // ==== REPLACE WITH YOUR FIREBASE CONFIG ====
+      // ==== Your Firebase config ====
       const firebaseConfig = {
         apiKey: "AIzaSyADwj2Z_4Ta6b7UwNWqz6z2cd0EWRW3DH0",
         authDomain: "alumni-8df81.firebaseapp.com",
@@ -557,11 +549,10 @@
       };
       // ==== END FIREBASE CONFIG ====
 
-      // Initialize Firebase
-      const app = firebase.initializeApp(firebaseConfig);
+      // Initialize Firebase (compat syntax for CDN)
+      firebase.initializeApp(firebaseConfig);
       const database = firebase.database();
 
-      
       function postQuestion() {
         const question = document.getElementById('questionInput').value.trim();
         if (question) {
@@ -574,7 +565,6 @@
         }
       }
 
-      
       database.ref('questions').on('value', (snapshot) => {
         const questionsDiv = document.getElementById('questions');
         questionsDiv.innerHTML = '';
@@ -604,7 +594,6 @@
         });
       });
 
-      
       function postAnswer(questionKey) {
         const answerInput = document.querySelector(`input[data-key="${questionKey}"]`);
         const answer = answerInput.value.trim();
