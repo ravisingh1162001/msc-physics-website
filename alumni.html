@@ -498,6 +498,54 @@
         </div>
     </footer>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const batchFilter = document.getElementById('batch-filter');
+        const industryFilter = document.getElementById('industry-filter');
+        const alumniCards = document.querySelectorAll('.alumni-card');
+
+        function filterAlumni() {
+            const batchValue = batchFilter.value;
+            const industryValue = industryFilter.value;
+
+            alumniCards.forEach(card => {
+                const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0];
+                const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
+                
+                const batchMatch = batchValue === 'all' || cardBatch === batchValue;
+                let industryMatch = industryValue === 'all';
+                
+                if (industryValue === 'academia' && (cardPosition.includes('professor') || cardPosition.includes('lecturer'))) {
+                    industryMatch = true;
+                } else if (industryValue === 'research' && cardPosition.includes('research')) {
+                    industryMatch = true;
+                } else if (industryValue === 'industry' && !cardPosition.includes('research') && !cardPosition.includes('professor') && !cardPosition.includes('lecturer')) {
+                    industryMatch = true;
+                } else if (industryValue === 'entrepreneurship' && (cardPosition.includes('founder') || cardPosition.includes('ceo') || cardPosition.includes('cto'))) {
+                    industryMatch = true;
+                }
+                
+                if (batchMatch && industryMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        batchFilter.addEventListener('change', filterAlumni);
+        industryFilter.addEventListener('change', filterAlumni);
+      });
+    </script>
+
+       <script>
+      function logout() {
+          localStorage.removeItem("loggedIn");
+          window.location.href = "login.html";
+      }
+    </script>
+
+
     <!-- Firebase Initialization -->
     <script>
         // Firebase configuration
@@ -569,7 +617,6 @@
         });
     </script>
 
-    <!-- Tidio Chat -->
-    <script src="//code.tidio.co/nuhdxjupf3ald5jsr33xpystkpipicqg.js" async></script>
+  
 </body>
 </html>
