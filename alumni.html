@@ -1,545 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alumni | DTU MSC Physics</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database-compat.js"></script>
-    
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/9d3e7b7a0a.js" crossorigin="anonymous"></script>
-    
-    <!-- Preload Tidio font -->
-    <link rel="preload" href="https://code.tidio.co/widget-v4/fonts/mullish_SGhgqk3wotYKNnBQ_woff2" as="font" crossorigin>
-    
-    <style>
-        :root {
-            --primary: #003366;
-            --secondary: #E74C3C;
-            --dark: #2C3E50;
-            --light: #ECF0F1;
-            --highlight: #3498DB;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #FAFAFA;
-            color: #333;
-            line-height: 1.8;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary), #004080);
-            color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: var(--secondary);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem 0;
-            border-bottom: 2px solid transparent;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-        }
-
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('image/moj.jpg') center/cover no-repeat;
-            height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
-
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-            text-align: center;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: var(--secondary);
-        }
-
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .filter-group label {
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        .filter-select {
-            padding: 0.6rem 1rem;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            min-width: 180px;
-            background-color: white;
-            transition: all 0.3s ease;
-        }
-
-        .filter-select:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
-        }
-
-        .alumni-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .alumni-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .alumni-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-        .alumni-img {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .alumni-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .alumni-card:hover .alumni-img img {
-            transform: scale(1.1);
-        }
-
-        .alumni-batch {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            background: var(--secondary);
-            color: white;
-            padding: 0.3rem 1rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .alumni-content {
-            padding: 1.5rem;
-        }
-
-        .alumni-name {
-            color: var(--primary);
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .alumni-position {
-            color: var(--secondary);
-            font-size: 1rem;
-            margin-bottom: 0.8rem;
-            font-weight: 500;
-        }
-
-        .alumni-company {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: #555;
-        }
-
-        .alumni-company i {
-            color: var(--primary);
-        }
-
-        .alumni-achievements {
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 1rem;
-            border-top: 1px solid #eee;
-            padding-top: 1rem;
-        }
-
-        footer {
-            background: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
-            margin-top: 4rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .social-links a {
-            color: white;
-            font-size: 1.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--secondary);
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                gap: 1.5rem;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-
-            .filters {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-            }
-        }
-        
-        .qa-container { 
-            max-width: 800px; 
-            margin: 3rem auto 2rem auto; 
-            background: #fff; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 8px #ddd; 
-            padding: 2rem; 
-        }
-        .qa-container h2 { 
-            text-align: center; 
-            color: #003366; 
-            margin-bottom: 1.5rem; 
-        }
-        .qa-input-group { 
-            display: flex; 
-            margin-bottom: 1.5rem; 
-        }
-        .qa-input-group input[type="text"] { 
-            flex: 1; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px 0 0 4px; 
-        }
-        .qa-input-group button { 
-            padding: 10px 20px; 
-            border: none; 
-            background: #003366; 
-            color: #fff; 
-            border-radius: 0 4px 4px 0; 
-            cursor: pointer; 
-        }
-        .qa-question { 
-            margin: 20px 0; 
-            padding: 15px; 
-            border: 1px solid #e0e0e0; 
-            border-radius: 5px; 
-            background: #f9f9ff; 
-        }
-        .qa-question p { 
-            margin: 0 0 8px 0; 
-        }
-        .qa-answers { 
-            margin-left: 20px; 
-        }
-        .qa-answer { 
-            margin: 8px 0; 
-            padding: 8px; 
-            background: #e9f5ff; 
-            border-radius: 3px; 
-        }
-        .qa-answer-input { 
-            margin-top: 10px; 
-            display: flex; 
-        }
-        .qa-answer-input input[type="text"] { 
-            flex: 1; 
-            padding: 6px; 
-            border: 1px solid #ccc; 
-            border-radius: 4px 0 0 4px; 
-        }
-        .qa-answer-input button { 
-            padding: 6px 14px; 
-            border: none; 
-            background: #007bff; 
-            color: #fff; 
-            border-radius: 0 4px 4px 0; 
-            cursor: pointer; 
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Alumni | DTU MSC Physics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <style>
+    body { font-family: 'Roboto', Arial, sans-serif; background: #f7f7fa; margin: 0; }
+    header, footer { background: #003366; color: #fff; padding: 1rem 0; text-align: center; }
+    .logo { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.5rem; }
+    .logo span { color: #ffcc00; }
+    nav ul { list-style: none; padding: 0; margin: 0; display: flex; justify-content: center; }
+    nav ul li { margin: 0 1rem; }
+    nav ul li a { color: #fff; text-decoration: none; font-weight: 500; }
+    nav ul li a.active { border-bottom: 2px solid #ffcc00; }
+    .hero { background: #e9f5ff; padding: 2rem 0; text-align: center; }
+    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    .section-title { font-family: 'Montserrat', sans-serif; font-size: 2rem; margin-bottom: 1rem; }
+    .filters { display: flex; gap: 2rem; margin-bottom: 2rem; }
+    .filter-group label { margin-right: 0.5rem; }
+    .filter-select { padding: 0.4rem 0.8rem; }
+    .alumni-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .alumni-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ddd; padding: 1rem; width: 260px; }
+    .alumni-img { position: relative; }
+    .alumni-img img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; }
+    .alumni-batch { position: absolute; bottom: 8px; left: 8px; background: #003366; color: #fff; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.9rem; }
+    .alumni-content h3 { margin: 0.5rem 0 0.2rem 0; }
+    .alumni-company { color: #888; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .alumni-achievements { font-size: 0.95rem; color: #333; }
+    .qa-container { max-width: 800px; margin: 3rem auto 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ddd; padding: 2rem; }
+    .qa-container h2 { text-align: center; color: #003366; margin-bottom: 1.5rem; }
+    .qa-input-group { display: flex; margin-bottom: 1.5rem; }
+    .qa-input-group input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
+    .qa-input-group button { padding: 10px 20px; border: none; background: #003366; color: #fff; border-radius: 0 4px 4px 0; cursor: pointer; }
+    .qa-question { margin: 20px 0; padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background: #f9f9ff; }
+    .qa-question p { margin: 0 0 8px 0; }
+    .qa-answers { margin-left: 20px; }
+    .qa-answer { margin: 8px 0; padding: 8px; background: #e9f5ff; border-radius: 3px; }
+    .qa-answer-input { margin-top: 10px; display: flex; }
+    .qa-answer-input input[type="text"] { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
+    .qa-answer-input button { padding: 6px 14px; border: none; background: #007bff; color: #fff; border-radius: 0 4px 4px 0; cursor: pointer; }
+    footer .footer-content { max-width: 900px; margin: 0 auto; }
+    .social-links a { color: #fff; margin: 0 0.5rem; font-size: 1.2rem; }
+  </style>
 </head>
-
+<body>
 <script>
-  // Authentication check
+  // Redirect to login if not logged in
   if (!localStorage.getItem("loggedIn")) {
     window.location.href = "login.html";
   }
 </script>
+<header>
+  <div class="logo">DTU <span>MSC Physics</span></div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="semester.html">Semester</a></li>
+      <li><a href="professor.html">Professor</a></li>
+      <li><a href="students.html">Students</a></li>
+      <li><a href="alumni.html" class="active">Alumni</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+</header>
 
-<body>
-    <header>
-        <div class="nav-container">
-            <div class="logo">DTU <span>MSC Physics</span></div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="semester.html">Semester</a></li>
-                    <li><a href="professor.html">Professor</a></li>
-                    <li><a href="students.html">Students</a></li>
-                    <li><a href="alumni.html" class="active">Alumni</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="#" onclick="logout()">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Our Distinguished Alumni</h1>
+    <p>Celebrating the achievements of our graduates who are making an impact worldwide</p>
+  </div>
+</section>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Our Distinguished Alumni</h1>
-            <p>Celebrating the achievements of our graduates who are making an impact worldwide</p>
-        </div>
-    </section>
-
-    <main class="container">
-        <h2 class="section-title">Alumni Network</h2>
-        
-        <div class="filters">
-            <div class="filter-group">
-                <label for="batch-filter">Batch:</label>
-                <select id="batch-filter" class="filter-select">
-                    <option value="all">All Batches</option>
-                    <option value="2025">2025</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="industry-filter">Industry:</label>
-                <select id="industry-filter" class="filter-select">
-                    <option value="all">All Industries</option>
-                    <option value="academia">Academia</option>
-                    <option value="research">Research</option>
-                    <option value="industry">Industry</option>
-                    <option value="entrepreneurship">Entrepreneurship</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="alumni-grid">
-            <!-- Alumni Card 1 -->
-            <div class="alumni-card">
-                <div class="alumni-img">
-                    <img src="image/Alumni/An.jpeg" alt="Anushka Pal">
-                    <span class="alumni-batch">2024 Batch</span>
-                </div>
-                <div class="alumni-content">
-                    <h3 class="alumni-name">Anushka Pal</h3>
-                    <p class="alumni-position">Senior Research Scientist</p>
-                    <div class="alumni-company">
-                        <i class="fas fa-building"></i>
-                        <span>MIT Plasma Science Center</span>
-                    </div>
-                    <p class="alumni-achievements">
-                        Published 15+ papers in high-impact journals. Developed novel plasma confinement techniques.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Alumni Card 2 -->
-            <div class="alumni-card">
-                <div class="alumni-img">
-                    <img src="image/Alumni/G3.jpeg" alt="Gaurav Kumar">
-                    <span class="alumni-batch">2025 Batch</span>
-                </div>
-                <div class="alumni-content">
-                    <h3 class="alumni-name">Gaurav Kumar</h3>
-                    <p class="alumni-position">Quantum Computing Engineer</p>
-                    <div class="alumni-company">
-                        <i class="fas fa-building"></i>
-                        <span>Google Quantum AI</span>
-                    </div>
-                    <p class="alumni-achievements">
-                        Part of team that achieved quantum supremacy. Developed error correction algorithms.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Alumni Card 3 -->
-            <div class="alumni-card">
-                <div class="alumni-img">
-                    <img src="image/Alumni/A.jpeg" alt="Rashmi Yadav">
-                    <span class="alumni-batch">2023 Batch</span>
-                </div>
-                <div class="alumni-content">
-                    <h3 class="alumni-name">Rashmi Yadav</h3>
-                    <p class="alumni-position">CTO & Co-Founder</p>
-                    <div class="alumni-company">
-                        <i class="fas fa-building"></i>
-                        <span>NanoTech Solutions</span>
-                    </div>
-                    <p class="alumni-achievements">
-                        Founded startup developing nanoscale sensors for medical diagnostics. Raised $10M in funding.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Alumni Card 4 -->
-            <div class="alumni-card">
-                <div class="alumni-img">
-                    <img src="image/Alumni/R.jpeg" alt="Ravi Singh">
-                    <span class="alumni-batch">2022 Batch</span>
-                </div>
-                <div class="alumni-content">
-                    <h3 class="alumni-name">Ravi Singh</h3>
-                    <p class="alumni-position">Assistant Professor</p>
-                    <div class="alumni-company">
-                        <i class="fas fa-building"></i>
-                        <span>Stanford University</span>
-                    </div>
-                    <p class="alumni-achievements">
-                        NSF CAREER Award winner. Leading research in topological materials.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Q&A Section -->
-    <section class="qa-container">
-      <h2>Alumni Q&A Board</h2>
-      <div class="qa-input-group">
-        <input type="text" id="questionInput" placeholder="Ask a question...">
-        <button onclick="postQuestion()">Post</button>
+<main class="container">
+  <h2 class="section-title">Alumni Network</h2>
+  <div class="filters">
+    <div class="filter-group">
+      <label for="batch-filter">Batch:</label>
+      <select id="batch-filter" class="filter-select">
+        <option value="all">All Batches</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="industry-filter">Industry:</label>
+      <select id="industry-filter" class="filter-select">
+        <option value="all">All Industries</option>
+        <option value="academia">Academia</option>
+        <option value="research">Research</option>
+        <option value="industry">Industry</option>
+        <option value="entrepreneurship">Entrepreneurship</option>
+      </select>
+    </div>
+  </div>
+  <div class="alumni-grid">
+    <!-- Example Alumni Card -->
+    <div class="alumni-card">
+      <div class="alumni-img">
+        <img src="image/Alumni/An.jpeg" alt="Anushka Pal">
+        <span class="alumni-batch">2024 Batch</span>
       </div>
-      <div id="questions"></div>
-    </section>
+      <div class="alumni-content">
+        <h3 class="alumni-name">Anushka Pal</h3>
+        <p class="alumni-position">Senior Research Scientist</p>
+        <div class="alumni-company">
+          <i class="fas fa-building"></i>
+          <span>MIT Plasma Science Center</span>
+        </div>
+        <p class="alumni-achievements">
+          Published 15+ papers in high-impact journals. Developed novel plasma confinement techniques.
+        </p>
+      </div>
+    </div>
+    <!-- Add more alumni-card divs as needed -->
+  </div>
+</main>
 
-    <footer>
-        <div class="footer-content">
-            <div class="logo">DTU <span>MSC Physics</span></div>
-            <p>Delhi Technological University</p>
-            <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
-            
-            <div class="social-links">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa
+<!-- Q&A Section -->
+<section class="qa-container">
+  <h2>Alumni Q&A Board</h2>
+  <div class="qa-input-group">
+    <input type="text" id="questionInput" placeholder="Ask a question...">
+    <button onclick="postQuestion()">Post</button>
+  </div>
+  <div id="questions"></div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="logo">DTU <span>MSC Physics</span></div>
+    <p>Delhi Technological University</p>
+    <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-researchgate"></i></a>
+    </div>
+    <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  // Alumni filter logic
+  document.addEventListener('DOMContentLoaded', function() {
+    const batchFilter = document.getElementById('batch-filter');
+    const industryFilter = document.getElementById('industry-filter');
+    const alumniCards = document.querySelectorAll('.alumni-card');
+
+    function filterAlumni() {
+      const batchValue = batchFilter.value;
+      const industryValue = industryFilter.value;
+
+      alumniCards.forEach(card => {
+        const cardBatch = card.querySelector('.alumni-batch').textContent.split(' ')[0];
+        const cardPosition = card.querySelector('.alumni-position').textContent.toLowerCase();
+        const batchMatch = batchValue === 'all' || cardBatch === batchValue;
+        let industryMatch = industryValue === 'all';
+
+        if (industryValue === 'academia' && (cardPosition.includes('professor') || cardPosition.includes('lecturer'))) {
+          industryMatch = true;
+        } else if (industryValue === 'research' && cardPosition.includes('research')) {
+          industryMatch = true;
+        } else if (industryValue === 'industry' && !cardPosition.includes('research') && !cardPosition.includes('professor') && !cardPosition.includes('lecturer')) {
+          industryMatch = true;
+        } else if (industryValue === 'entrepreneurship' && (cardPosition.includes('founder') || cardPosition.includes('ceo') || cardPosition.includes('cto'))) {
+          industryMatch = true;
+        }
+
+        if (batchMatch && industryMatch) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    batchFilter.addEventListener('change', filterAlumni);
+    industryFilter.addEventListener('change', filterAlumni);
+  });
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+  }
+</script>
+
+<!-- Q&A Board Script -->
+<script>
+  // ==== Your Firebase config ====
+  var firebaseConfig = {
+    apiKey: "AIzaSyADwj2Z_4Ta6b7UwNWqz6z2cd0EWRW3DH0",
+    authDomain: "alumni-8df81.firebaseapp.com",
+    databaseURL: "https://alumni-8df81-default-rtdb.firebaseio.com/",
+    projectId: "alumni-8df81",
+    storageBucket: "alumni-8df81.appspot.com",
+    messagingSenderId: "45330611463",
+    appId: "1:45330611463:web:b85824fb8689d1a62b59a2"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var database = firebase.database();
+
+  function postQuestion() {
+    var question = document.getElementById('questionInput').value.trim();
+    if (question) {
+      database.ref('questions').push({
+        text: question,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        answers: {}
+      });
+      document.getElementById('questionInput').value = '';
+    }
+  }
+
+  database.ref('questions').on('value', function(snapshot) {
+    var questionsDiv = document.getElementById('questions');
+    questionsDiv.innerHTML = '';
+    snapshot.forEach(function(childSnapshot) {
+      var question = childSnapshot.val();
+      var questionKey = childSnapshot.key;
+      var answersHTML = '';
+      if (question.answers) {
+        for (var answerKey in question.answers) {
+          var answer = question.answers[answerKey];
+          answersHTML += '<div class="qa-answer">' + answer.text + '</div>';
+        }
+      }
+      var questionHTML = `
+        <div class="qa-question">
+          <p><strong>Q:</strong> ${question.text}</p>
+          <div class="qa-answers" id="answers-${questionKey}">
+            ${answersHTML}
+          </div>
+          <div class="qa-answer-input">
+            <input type="text" placeholder="Write an answer..." data-key="${questionKey}">
+            <button onclick="postAnswer('${questionKey}')">Reply</button>
+          </div>
+        </div>
+      `;
+      questionsDiv.innerHTML += questionHTML;
+    });
+  });
+
+  function postAnswer(questionKey) {
+    var answerInput = document.querySelector('input[data-key="' + questionKey + '"]');
+    var answer = answerInput.value.trim();
+    if (answer) {
+      database.ref('questions/' + questionKey + '/answers').push({
+        text: answer,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      });
+      answerInput.value = '';
+    }
+  }
+</script>
+</body>
+</html>
