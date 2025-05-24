@@ -249,6 +249,7 @@
                     <li><a href="students.html">Students</a></li>
                     <li><a href="alumni.html">Alumni</a></li>
                     <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -346,6 +347,13 @@
             <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
         </div>
     </footer>
+    <script>
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+</script>
+
 
     <!-- Font Awesome for icons (add to head in production) -->
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
