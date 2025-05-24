@@ -380,6 +380,7 @@
                     <li><a href="students.html">Students</a></li>
                     <li><a href="alumni.html">Alumni</a></li>
                     <li><a href="about.html">About</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -1152,5 +1153,13 @@
             });
         });
     </script>
+
+        <script>
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>
