@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <script>
+<script>
   if (!localStorage.getItem("loggedIn")) {
     window.location.href = "login.html";
   }
@@ -11,8 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alumni | DTU MSC Physics</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+    <!-- Firebase SDK for Q&A -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.2/firebase-database.js"></script>
     <style>
-        :root {
+        /* ... Your existing CSS ... */
+        /* (Paste your full CSS here, unchanged for brevity) */
+         :root {
             --primary: #003366; /* Deep university blue */
             --secondary: #E74C3C; /* Vibrant accent */
             --dark: #2C3E50;
@@ -307,10 +312,28 @@
                 gap: 1rem;
             }
         }
+        
+        
+        
+        
+        /* Add Q&A board styles: */
+        .qa-container { max-width: 800px; margin: 3rem auto 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #ddd; padding: 2rem; }
+        .qa-container h2 { text-align: center; color: #003366; margin-bottom: 1.5rem; }
+        .qa-input-group { display: flex; margin-bottom: 1.5rem; }
+        .qa-input-group input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
+        .qa-input-group button { padding: 10px 20px; border: none; background: #003366; color: #fff; border-radius: 0 4px 4px 0; cursor: pointer; }
+        .qa-question { margin: 20px 0; padding: 15px; border: 1px solid #e0e0e0; border-radius: 5px; background: #f9f9ff; }
+        .qa-question p { margin: 0 0 8px 0; }
+        .qa-answers { margin-left: 20px; }
+        .qa-answer { margin: 8px 0; padding: 8px; background: #e9f5ff; border-radius: 3px; }
+        .qa-answer-input { margin-top: 10px; display: flex; }
+        .qa-answer-input input[type="text"] { flex: 1; padding: 6px; border: 1px solid #ccc; border-radius: 4px 0 0 4px; }
+        .qa-answer-input button { padding: 6px 14px; border: none; background: #007bff; color: #fff; border-radius: 0 4px 4px 0; cursor: pointer; }
     </style>
 </head>
 <body>
     <header>
+        <!-- ... Your header code ... -->
         <div class="nav-container">
             <div class="logo">DTU <span>MSC Physics</span></div>
             <nav>
@@ -328,6 +351,7 @@
     </header>
 
     <section class="hero">
+        <!-- ... Your hero section ... -->
         <div class="hero-content">
             <h1>Our Distinguished Alumni</h1>
             <p>Celebrating the achievements of our graduates who are making an impact worldwide</p>
@@ -335,6 +359,7 @@
     </section>
 
     <main class="container">
+        <!-- ... Your alumni cards and filters ... -->
         <h2 class="section-title">Alumni Network</h2>
         
         <div class="filters">
@@ -440,7 +465,18 @@
         </div>
     </main>
 
+    
+    <section class="qa-container">
+      <h2>Alumni Q&A Board</h2>
+      <div class="qa-input-group">
+        <input type="text" id="questionInput" placeholder="Ask a question...">
+        <button onclick="postQuestion()">Post</button>
+      </div>
+      <div id="questions"></div>
+    </section>
+
     <footer>
+        <!-- ... Your footer code ... -->
         <div class="footer-content">
             <div class="logo">DTU <span>MSC Physics</span></div>
             <p>Delhi Technological University</p>
@@ -457,12 +493,11 @@
         </div>
     </footer>
 
-    <!-- Font Awesome for icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- Alumni Filter Script -->
     <script>
-     document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function() {
     const batchFilter = document.getElementById('batch-filter');
     const industryFilter = document.getElementById('industry-filter');
     const alumniCards = document.querySelectorAll('.alumni-card');
@@ -500,13 +535,87 @@
     industryFilter.addEventListener('change', filterAlumni);
 });
     </script>
-<script src="//code.tidio.co/nuhdxjupf3ald5jsr33xpystkpipicqg.js" async></script>
-  <script>
-function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-}
-</script>
-  
+    <script src="//code.tidio.co/nuhdxjupf3ald5jsr33xpystkpipicqg.js" async></script>
+    <script>
+      function logout() {
+          localStorage.removeItem("loggedIn");
+          window.location.href = "login.html";
+      }
+    </script>
+
+    
+    <script>
+      // ==== REPLACE WITH YOUR FIREBASE CONFIG ====
+      const firebaseConfig = {
+        apiKey: "AIzaSyADwj2Z_4Ta6b7UwNWqz6z2cd0EWRW3DH0",
+        authDomain: "alumni-8df81.firebaseapp.com",
+        databaseURL: "https://alumni-8df81-default-rtdb.firebaseio.com/",
+        projectId: "alumni-8df81",
+        storageBucket: "alumni-8df81.appspot.com",
+        messagingSenderId: "45330611463",
+        appId: "1:45330611463:web:b85824fb8689d1a62b59a2"
+      };
+      // ==== END FIREBASE CONFIG ====
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+
+      
+      function postQuestion() {
+        const question = document.getElementById('questionInput').value.trim();
+        if (question) {
+          database.ref('questions').push({
+            text: question,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            answers: {}
+          });
+          document.getElementById('questionInput').value = '';
+        }
+      }
+
+      
+      database.ref('questions').on('value', (snapshot) => {
+        const questionsDiv = document.getElementById('questions');
+        questionsDiv.innerHTML = '';
+        snapshot.forEach((childSnapshot) => {
+          const question = childSnapshot.val();
+          const questionKey = childSnapshot.key;
+          let answersHTML = '';
+          if (question.answers) {
+            for (const answerKey in question.answers) {
+              const answer = question.answers[answerKey];
+              answersHTML += `<div class="qa-answer">${answer.text}</div>`;
+            }
+          }
+          const questionHTML = `
+            <div class="qa-question">
+              <p><strong>Q:</strong> ${question.text}</p>
+              <div class="qa-answers" id="answers-${questionKey}">
+                ${answersHTML}
+              </div>
+              <div class="qa-answer-input">
+                <input type="text" placeholder="Write an answer..." data-key="${questionKey}">
+                <button onclick="postAnswer('${questionKey}')">Reply</button>
+              </div>
+            </div>
+          `;
+          questionsDiv.innerHTML += questionHTML;
+        });
+      });
+
+      
+      function postAnswer(questionKey) {
+        const answerInput = document.querySelector(`input[data-key="${questionKey}"]`);
+        const answer = answerInput.value.trim();
+        if (answer) {
+          database.ref(`questions/${questionKey}/answers`).push({
+            text: answer,
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+          });
+          answerInput.value = '';
+        }
+      }
+    </script>
 </body>
 </html>
