@@ -480,19 +480,64 @@
         <div id="questions"></div>
     </section>
     
-.qa-container {
-    width: 100%; /* Adjust width as needed */
-    min-height: 500px; /* Set a minimum height */
-    padding: 20px; /* Increase padding for better spacing */
-    overflow-y: auto; /* Enable scrolling if comments exceed the size */
-    border: 1px solid #ccc; /* Add a border for clarity */
-}
+<section class="qa-container">
+  <h2>Alumni Q&A Board</h2>
 
-#questions {
-    min-height: 400px; /* Ensures enough space for questions */
-    max-height: 800px; /* Optional: Limit expansion */
-    overflow-y: auto; /* Enables scrolling */
-}
+  <div class="qa-input-group">
+    <!-- Swap input → textarea if you want multi-line -->
+    <textarea id="questionInput" rows="3" placeholder="Ask a question…"></textarea>
+    <button onclick="postQuestion()">Post</button>
+  </div>
+
+  <div id="questions"></div>
+</section>
+
+<style>
+  /* 1. Container */
+  .qa-container {
+    max-width: 1000px;      /* wider board */
+    width: 90vw;            /* responsive */
+    margin: 2rem auto;
+    padding: 20px 24px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+  }
+
+  /* 2. Input row */
+  .qa-input-group { 
+    display: flex; 
+    gap: 10px; 
+  }
+  .qa-input-group textarea {
+    flex: 1;
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    resize: vertical;       /* user can drag taller */
+  }
+  .qa-input-group button {
+    padding: 14px 24px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  /* 3. Posted questions panel */
+  #questions {
+    margin-top: 20px;
+    min-height: 350px;      /* fixed “big” area */
+    max-height: 70vh;       /* never taller than viewport */
+    overflow-y: auto;       /* scroll when full */
+    padding-right: 6px;     /* keep scrollbar off text */
+  }
+  /* 4. Each question bubble */
+  .question {
+    padding: 12px 10px;
+    margin-bottom: 10px;
+    background: #f8f8f8;
+    border-radius: 6px;
+  }
+</style>
+
 
     <footer>
         <!-- Your footer content -->
