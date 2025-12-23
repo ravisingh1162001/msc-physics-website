@@ -1,67 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Login | DTU MSC Physics</title>
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | DTU MSC Physics</title>
 
-		<style>
-			body {
-				font-family: Arial, sans-serif;
-				background: #f5f6fa;
-			}
-			.login-container {
-				max-width: 350px;
-				margin: 80px auto;
-				background: #fff;
-				border-radius: 8px;
-				box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
-				padding: 2rem;
-				text-align: center;
-			}
-			button {
-				padding: 12px 18px;
-				font-size: 16px;
-				background: #4285f4;
-				color: white;
-				border: none;
-				border-radius: 4px;
-				cursor: pointer;
-			}
-		</style>
-	</head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+    }
+    .login-container {
+      max-width: 350px;
+      margin: 80px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+      padding: 2rem;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .email-btn {
+      background: #003366;
+      color: white;
+    }
+    .google-btn {
+      background: #4285f4;
+      color: white;
+    }
+    .divider {
+      margin: 15px 0;
+      color: #999;
+      font-size: 14px;
+    }
+  </style>
+</head>
 
-	<body>
-		<div class="login-container">
-			<h2>Login with Google</h2>
-			<button onclick="login()">Sign in with Google</button>
-		</div>
+<body>
 
-		<script type="module">
-			import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-			import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<div class="login-container">
+  <h2>Login</h2>
 
-			const firebaseConfig = {
-				apiKey: "AIzaSyDIyuelAwOEHValFaPNMF5G3d3NtTt-TSA",
-				authDomain: "msc-physics-website.firebaseapp.com",
-				projectId: "msc-physics-website",
-				storageBucket: "msc-physics-website.firebasestorage.app",
-				messagingSenderId: "147129104294",
-				appId: "1:147129104294:web:103de3f75f5eb05ff3c167",
-			};
+  <!-- ✅ EMAIL / PASSWORD -->
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button class="email-btn" onclick="loginWithEmail()">Login</button>
 
-			const app = initializeApp(firebaseConfig);
-			const auth = getAuth(app);
-			const provider = new GoogleAuthProvider();
+  <div class="divider">OR</div>
 
-			window.login = function () {
-				signInWithPopup(auth, provider)
-					.then(() => {
-						window.location.href = "index.html";
-					})
-					.catch((error) => {
-						alert(error.message);
-					});
-			};
-		</script>
-	</body>
+  <!-- ✅ GOOGLE LOGIN -->
+  <button class="google-btn" onclick="loginWithGoogle()">Sign in with Google</button>
+</div>
+
+<script type="module">
+  import { auth } from "./firebase.js";
+  import {
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithRedirect,
+    getRedirectResult
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  // 🔹 Email/Password login
+  window.loginWithEmail = function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) {
+      alert("Please enter email and password");
+      return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        window.location.href = "index.html";
+      })
+      .catch(err => alert(err.message));
+  };
+
+  // 🔹 Google login (redirect – production safe)
+  const provider = new GoogleAuthProvider();
+
+  window.loginWithGoogle = function () {
+    signInWithRedirect(auth, provider);
+  };
+
+  // 🔄 Handle Google redirect result
+  getRedirectResult(auth)
+    .then((result) => {
+      if (result?.user) {
+        window.location.href = "index.html";
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert(err.message);
+    });
+</script>
+
+</body>
 </html>
