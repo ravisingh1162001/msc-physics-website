@@ -1,87 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login | DTU MSC Physics</title>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Login | DTU MSC Physics</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f6fa;
-    }
-    .login-box {
-      width: 320px;
-      margin: 100px auto;
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #003366;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #002244;
-    }
-  </style>
-</head>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background: #f5f6fa;
+			}
+			.login-container {
+				max-width: 350px;
+				margin: 80px auto;
+				background: #fff;
+				border-radius: 8px;
+				box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+				padding: 2rem;
+				text-align: center;
+			}
+			button {
+				padding: 12px 18px;
+				font-size: 16px;
+				background: #4285f4;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
 
-<body>
+	<body>
+		<div class="login-container">
+			<h2>Login with Google</h2>
+			<button onclick="login()">Sign in with Google</button>
+		</div>
 
-<div class="login-box">
-  <h2>Login</h2>
+		<script type="module">
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+			import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  <!-- ✅ EMAIL INPUT -->
-  <input type="email" id="email" placeholder="Email" required />
+			const firebaseConfig = {
+				apiKey: "AIzaSyDIyuelAwOEHValFaPNMF5G3d3NtTt-TSA",
+				authDomain: "msc-physics-website.firebaseapp.com",
+				projectId: "msc-physics-website",
+				storageBucket: "msc-physics-website.firebasestorage.app",
+				messagingSenderId: "147129104294",
+				appId: "1:147129104294:web:103de3f75f5eb05ff3c167",
+			};
 
-  <!-- ✅ PASSWORD INPUT -->
-  <input type="password" id="password" placeholder="Password" required />
+			const app = initializeApp(firebaseConfig);
+			const auth = getAuth(app);
+			const provider = new GoogleAuthProvider();
 
-  <button onclick="login()">Login</button>
-</div>
-
-<script type="module">
-  import { auth } from "./firebase.js";
-  import { signInWithEmailAndPassword } from
-    "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  window.login = function () {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    if (!email || !password) {
-      alert("Please enter email and password");
-      return;
-    }
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        window.location.href = "index.html";
-      })
-      .catch(error => {
-        alert(error.message);
-      });
-  };
-</script>
-
-</body>
+			window.login = function () {
+				signInWithPopup(auth, provider)
+					.then(() => {
+						window.location.href = "index.html";
+					})
+					.catch((error) => {
+						alert(error.message);
+					});
+			};
+		</script>
+	</body>
 </html>
