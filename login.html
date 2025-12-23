@@ -1,40 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <a href="#" onclick="localStorage.removeItem('loggedIn');window.location.href='login.html';">Logout</a>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Login | DTU MSC Physics</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <title>Login | DTU MSC Physics</title>
-  <meta name="google-signin-client_id" content="813200846779-vfglturmvrsalnkgemdlckqbvcg9e1l1.apps.googleusercontent.com" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <style>
-    body { font-family: 'Roboto', sans-serif; background: #f5f6fa; }
-    .login-container { max-width: 350px; margin: 80px auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.09); padding: 2rem 2rem 1.5rem 2rem; }
-    .login-container h2 { text-align: center; color: #003366; margin-bottom: 1.5rem; }
-    #g_id_signin { display: flex; justify-content: center; }
-  </style>
-  <script>
-    function handleCredentialResponse(response) {
-      // User is authenticated with Google, you can decode the JWT for profile info if needed
-      localStorage.setItem("loggedIn", "true");
-      window.location.href = "index.html";
-    }
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: "813200846779-vfglturmvrsalnkgemdlckqbvcg9e1l1.apps.googleusercontent.com",
-        callback: handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("g_id_signin"),
-        { theme: "outline", size: "large" }
-      );
-    }
-  </script>
-</head>
-<body>
-  <div class="login-container">
-    <h2>Login with Google</h2>
-    <div id="g_id_signin"></div>
-  </div>
-</body>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background: #f5f6fa;
+			}
+			.login-container {
+				max-width: 350px;
+				margin: 80px auto;
+				background: #fff;
+				border-radius: 8px;
+				box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+				padding: 2rem;
+				text-align: center;
+			}
+			button {
+				padding: 12px 18px;
+				font-size: 16px;
+				background: #4285f4;
+				color: white;
+				border: none;
+				border-radius: 4px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="login-container">
+			<h2>Login with Google</h2>
+			<button onclick="login()">Sign in with Google</button>
+		</div>
+
+		<script type="module">
+			import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+			import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+			const firebaseConfig = {
+				apiKey: "AIzaSyDIyuelAwOEHValFaPNMF5G3d3NtTt-TSA",
+				authDomain: "msc-physics-website.firebaseapp.com",
+				projectId: "msc-physics-website",
+				storageBucket: "msc-physics-website.firebasestorage.app",
+				messagingSenderId: "147129104294",
+				appId: "1:147129104294:web:103de3f75f5eb05ff3c167",
+			};
+
+			const app = initializeApp(firebaseConfig);
+			const auth = getAuth(app);
+			const provider = new GoogleAuthProvider();
+
+			window.login = function () {
+				signInWithPopup(auth, provider)
+					.then(() => {
+						window.location.href = "index.html";
+					})
+					.catch((error) => {
+						alert(error.message);
+					});
+			};
+		</script>
+	</body>
 </html>
