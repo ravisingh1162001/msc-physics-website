@@ -10,11 +10,11 @@
       background: #f5f6fa;
     }
     .login-container {
-      max-width: 350px;
+      max-width: 360px;
       margin: 80px auto;
       background: #fff;
       border-radius: 8px;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.09);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.09);
       padding: 2rem;
       text-align: center;
     }
@@ -32,7 +32,7 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .email-btn {
       background: #003366;
@@ -43,8 +43,8 @@
       color: white;
     }
     .divider {
-      margin: 15px 0;
-      color: #999;
+      margin: 14px 0;
+      color: #888;
       font-size: 14px;
     }
   </style>
@@ -55,10 +55,10 @@
 <div class="login-container">
   <h2>Login</h2>
 
-  <!-- ✅ EMAIL / PASSWORD -->
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="password" id="password" placeholder="Password" required />
-  <button class="email-btn" onclick="loginWithEmail()">Login</button>
+  <!-- ✅ EMAIL LOGIN (THIS WAS MISSING) -->
+  <input type="email" id="email" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button class="email-btn" onclick="loginWithEmail()">Login with Email</button>
 
   <div class="divider">OR</div>
 
@@ -75,7 +75,7 @@
     getRedirectResult
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  // 🔹 Email/Password login
+  // 🔹 Email / Password login
   window.loginWithEmail = function () {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -86,30 +86,25 @@
     }
 
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        window.location.href = "index.html";
-      })
+      .then(() => window.location.href = "index.html")
       .catch(err => alert(err.message));
   };
 
-  // 🔹 Google login (redirect – production safe)
+  // 🔹 Google login (redirect = safe for live site)
   const provider = new GoogleAuthProvider();
 
   window.loginWithGoogle = function () {
     signInWithRedirect(auth, provider);
   };
 
-  // 🔄 Handle Google redirect result
+  // 🔄 Handle Google redirect
   getRedirectResult(auth)
-    .then((result) => {
+    .then(result => {
       if (result?.user) {
         window.location.href = "index.html";
       }
     })
-    .catch(err => {
-      console.error(err);
-      alert(err.message);
-    });
+    .catch(err => console.error(err));
 </script>
 
 </body>
