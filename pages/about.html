@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <script>
+  if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | DTU MSC Physics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+    <style>
+        :root {
+            --primary: #003366; /* Deep university blue */
+            --secondary: #E74C3C; /* Vibrant accent */
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --highlight: #3498DB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FAFAFA;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #004080);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('image/dtu-upscaled.jpg') center/cover no-repeat;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .facilities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .facility-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .facility-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .facility-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .facility-card:hover .facility-img img {
+            transform: scale(1.1);
+        }
+
+        .facility-content {
+            padding: 1.5rem;
+        }
+
+        .facility-content h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="semester.html">Semester</a></li>
+                    <li><a href="professor.html">Professor</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="alumni.html">Alumni</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Advancing Physics Through Innovation</h1>
+            <p>Pioneering research and education since 1941</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <section class="section">
+            <h2>About Our Department</h2>
+            <p>The Department of Physics at DTU has been at the forefront of physics education and cutting-edge research for over eight decades. Our legacy of excellence has positioned us as leaders in scientific discovery and technological innovation.</p>
+            <p>We combine rigorous academic training with hands-on research opportunities, preparing students to tackle the most pressing challenges in physics and related disciplines.</p>
+        </section>
+
+        <section class="section">
+            <h2>Our Mission</h2>
+            <p>To cultivate a vibrant intellectual community that pushes the boundaries of physical knowledge while training the next generation of scientists and innovators through:</p>
+            
+            <div class="facilities">
+                <div class="facility-card">
+                    <div class="facility-img">
+                        <img src="image/pic9.jpg" alt="Physics Education">
+                    </div>
+                    <div class="facility-content">
+                        <h3>World-Class Education</h3>
+                        <p>Innovative curriculum taught by renowned faculty with small class sizes for personalized attention.</p>
+                    </div>
+                </div>
+
+                <div class="facility-card">
+                    <div class="facility-img">
+                        <img src="image/pic11.jpg" alt="Physics Research">
+                    </div>
+                    <div class="facility-content">
+                        <h3>Cutting-Edge Research</h3>
+                        <p>Interdisciplinary research programs with state-of-the-art facilities and equipment.</p>
+                    </div>
+                </div>
+
+                <div class="facility-card">
+                    <div class="facility-img">
+                        <img src="image/pic4.jpg" alt="Technology Innovation">
+                    </div>
+                    <div class="facility-content">
+                        <h3>Technology Innovation</h3>
+                        <p>Translating fundamental discoveries into practical applications that benefit society.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Research Facilities</h2>
+            <p>Our department houses world-class facilities that enable groundbreaking research across multiple physics disciplines:</p>
+            
+            <ul style="list-style-type: none; margin-top: 1.5rem;">
+                <li style="padding: 0.8rem 0; border-bottom: 1px solid #eee; display: flex; align-items: center;">
+                    <span style="color: var(--secondary); margin-right: 1rem;">▶</span>
+                    <strong>Advanced Research Laboratories:</strong> 10,000 sq ft of specialized labs
+                </li>
+                <li style="padding: 0.8rem 0; border-bottom: 1px solid #eee; display: flex; align-items: center;">
+                    <span style="color: var(--secondary); margin-right: 1rem;">▶</span>
+                    <strong>High-Performance Computing Center:</strong> 5 petaflop supercomputer cluster
+                </li>
+                <li style="padding: 0.8rem 0; border-bottom: 1px solid #eee; display: flex; align-items: center;">
+                    <span style="color: var(--secondary); margin-right: 1rem;">▶</span>
+                    <strong>Nanotechnology Fabrication Unit:</strong> Class 100 cleanroom facilities
+                </li>
+                <li style="padding: 0.8rem 0; display: flex; align-items: center;">
+                    <span style="color: var(--secondary); margin-right: 1rem;">▶</span>
+                    <strong>Quantum Research Center:</strong> Ultra-low vibration and EM-shielded labs
+                </li>
+            </ul>
+        </section>
+    </main>
+
+        <!-- Developers Section -->
+    <section class="container" style="margin-bottom: 0; padding-bottom: 3rem;">
+        <div class="section">
+            <h2>Website Developers</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center;">
+                <!-- Developer 1 -->
+                <div style="flex: 1; min-width: 300px; background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 1.5rem; border: 4px solid var(--primary);">
+                        <img src="image/Alumni/R.jpeg" alt="Developer 1" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="text-align: center; color: var(--primary); margin-bottom: 0.5rem;">Ravi Singh</h3>
+                    <p style="text-align: center; color: var(--secondary); margin-bottom: 1rem;">Lead Developer</p>
+                    <p style="text-align: center;">MSc Physics graduate with expertise in web development. Designed the core architecture and alumni networking features.</p>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                        <a href="#" style="color: var(--dark);"><i class="fab fa-github"></i></a>
+                        <a href="#" style="color: var(--dark);"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--dark);"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+
+                <!-- Developer 2 -->
+                <div style="flex: 1; min-width: 300px; background: white; border-radius: 8px; padding: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <div style="width: 150px; height: 150px; border-radius: 50%; overflow: hidden; margin: 0 auto 1.5rem; border: 4px solid var(--primary);">
+                        <img src="image/Alumni/N1.jpeg" alt="Developer 2" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3 style="text-align: center; color: var(--primary); margin-bottom: 0.5rem;">Gaurav Kumar</h3>
+                    <p style="text-align: center; color: var(--secondary); margin-bottom: 1rem;">UI/UX Designer</p>
+                    <p style="text-align: center;">Specialized in scientific visualization and user experience design. Created the interactive elements and responsive layout of the platform.</p>
+                    <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+                        <a href="#" style="color: var(--dark);"><i class="fab fa-github"></i></a>
+                        <a href="#" style="color: var(--dark);"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: var(--dark);"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+        <!-- Contributors Section -->
+    <section class="container" style="margin-bottom: 2rem; padding-bottom: 2rem;">
+        <div class="section">
+            <h2>Special Thanks</h2>
+            
+            <div style="background: rgba(0,51,102,0.05); padding: 2rem; border-radius: 8px; border-left: 4px solid var(--secondary);">
+                <h3 style="color: var(--primary); margin-bottom: 1.5rem;">Notes Contributors</h3>
+                
+                <ul style="columns: 2; list-style-type: none; gap: 2rem;">
+                    <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+                        <span style="color: var(--secondary); margin-right: 1rem;">•</span>
+                        <strong>Manabendra</strong> - Provided core physics lecture notes
+                    </li>
+                    <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+                        <span style="color: var(--secondary); margin-right: 1rem;">•</span>
+                        <strong>Satya (CR)</strong> - Shared semester-wise study materials
+                    </li>
+                    <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+                        <span style="color: var(--secondary); margin-right: 1rem;">•</span>
+                        <strong>Baibhav</strong> - Contributed solved problem sets
+                    </li>
+                    <li style="padding: 0.5rem 0; display: flex; align-items: center;">
+                        <span style="color: var(--secondary); margin-right: 1rem;">•</span>
+                        <strong>Suyash Mishra</strong> - Provided reference books and exam papers
+                    </li>
+                </ul>
+                
+                <p style="text-align: center; margin-top: 2rem; font-style: italic; color: var(--dark);">
+                    "Grateful for their efforts in compiling resources to help our juniors succeed"
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <p>Delhi Technological University</p>
+            <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-researchgate"></i></a>
+            </div>
+            
+            <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+</script>
+
+
+    <!-- Font Awesome for icons (add to head in production) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>

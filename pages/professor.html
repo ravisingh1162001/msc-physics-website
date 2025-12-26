@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <script>
+  if (!localStorage.getItem("loggedIn")) {
+    window.location.href = "login.html";
+  }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty | DTU MSC Physics</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@600;700&display=swap">
+    <style>
+        :root {
+            --primary: #003366; /* Deep university blue */
+            --secondary: #E74C3C; /* Vibrant accent */
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --highlight: #3498DB;
+            --card-bg: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FAFAFA;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), #004080);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--secondary);
+            border-bottom-color: var(--secondary);
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('image/pic11 (1).jpg') center/cover no-repeat;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .faculty-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+        }
+
+        .faculty-sidebar {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .faculty-sidebar h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .department-list {
+            list-style: none;
+        }
+
+        .department-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .dept-btn {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            text-align: left;
+            background: transparent;
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .dept-btn i {
+            color: var(--primary);
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dept-btn:hover, .dept-btn.active {
+            background-color: rgba(0, 51, 102, 0.1);
+            color: var(--primary);
+        }
+
+        .dept-btn:hover i, .dept-btn.active i {
+            color: var(--secondary);
+        }
+
+        .dept-btn.active {
+            background-color: rgba(0, 51, 102, 0.08);
+            font-weight: 600;
+        }
+
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .faculty-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .faculty-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .faculty-img {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .faculty-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .faculty-card:hover .faculty-img img {
+            transform: scale(1.05);
+        }
+
+        .faculty-badge {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: var(--secondary);
+            color: white;
+            padding: 0.3rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 0 6px 0 0;
+        }
+
+        .faculty-content {
+            padding: 1.8rem;
+        }
+
+        .faculty-name {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .faculty-title {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .faculty-expertise {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .faculty-expertise i {
+            color: var(--primary);
+        }
+
+        .faculty-research {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .faculty-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .faculty-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background: rgba(0, 51, 102, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .faculty-link:hover {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--secondary);
+            gap: 0.8rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--secondary);
+        }
+
+        @media (max-width: 1024px) {
+            .faculty-container {
+                grid-template-columns: 1fr;
+            }
+
+            .faculty-sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="semester.html">Semester</a></li>
+                    <li><a href="professor.html" class="active">Professor</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="alumni.html">Alumni</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="#" onclick="logout()">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>Our Distinguished Faculty</h1>
+    </section>
+
+    <main class="faculty-container">
+        <aside class="faculty-sidebar">
+            <h2>Research Areas</h2>
+            <ul class="department-list">
+                <li class="department-item">
+                    <button class="dept-btn active">
+                        <i class="fas fa-users"></i>
+                        All Faculty
+                    </button>
+                </li>
+                <li class="department-item">
+                    <button class="dept-btn">
+                        <i class="fas fa-atom"></i>
+                        Condensed Matter
+                    </button>
+                </li>
+                <li class="department-item">
+                    <button class="dept-btn">
+                        <i class="fas fa-question-circle"></i>
+                        Quantum Physics
+                    </button>
+                </li>
+                <li class="department-item">
+                    <button class="dept-btn">
+                        <i class="fas fa-star"></i>
+                        Astrophysics
+                    </button>
+                </li>
+                <li class="department-item">
+                    <button class="dept-btn">
+                        <i class="fas fa-microchip"></i>
+                        Nanotechnology
+                    </button>
+                </li>
+                <li class="department-item">
+                    <button class="dept-btn">
+                        <i class="fas fa-lightbulb"></i>
+                        Photonics
+                    </button>
+                </li>
+            </ul>
+        </aside>
+
+        <div class="faculty-grid">
+            <!-- Faculty Card 1 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/vinodsingh.jpg" alt="Prof. Vinod Singh">
+                    <span class="faculty-badge">HOD</span>
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name"> Vinod Singh</h3>
+                    <p class="faculty-title">Professor, Head of Department</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc. (Gold Medal), Ph.D., IIT Delhi</span>
+                    </div>
+                    <p class="faculty-research">
+                        Synthesis and characterization of functional nanomaterials and explore their size dependent properties and applications.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Card 2 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/scsharma.jpg" alt="Prof. Suresh C. Sharma">
+                    <span class="faculty-badge">Dean</span>
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Prof. Suresh C. Sharma</h3>
+                    <p class="faculty-title">Professor, Former Dean(Acad-PG)</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc(Phys. with Electronics), M.Phil., Ph.D. (Plasma Physics)</span>
+                    </div>
+                    <p class="faculty-research">
+                        Plasma Physics, Carbon Nanotubes, Graphene Composites, THz Radiation Emission.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Card 3 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/bhartisingh.jpg" alt="Dr. Bharti Singh">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Bharti Singh</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Thin films, resistive memory devices, 2D materials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Card 4 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/deshrajmeena.jpg" alt="Dr. Deshraj Meena">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Deshraj Meena</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Works on nanophotonics and metamaterials for advanced optical computing and sensing applications.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Faculty Card 5 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/Himadri.png" alt="Dr. M. Jayasimhadri">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. M. Jayasimhadri</h3>
+                    <p class="faculty-title">Associate Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Optical spectroscopy, solid state physics, nanotechnology.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 6 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/kamal_sir.png" alt="Dr. Kamal Kishor">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Kamal Kishor</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Fiber optics, photonic crystals, metamaterials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 7 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/mjayasimhadri.jpg" alt="Prof. Himadri B Bohidar">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Prof. Himadri B Bohidar</h3>
+                    <p class="faculty-title">Honorary Faculty</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Soft matter physics, biophysics, polymer physics.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 8 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/msmehata.jpg" alt="Dr. Mohan S. Mehata">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Mohan S. Mehata</h3>
+                    <p class="faculty-title">Associate Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Fluorescent spectroscopy, quantum dots, organic LEDs.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 9 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/mukhtiyarsingh.jpg" alt="Dr. Mukhtiyar Singh">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Mukhtiyar Singh</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                       Theoretical condensed matter physics, spintronics.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 10 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/nitinkumarpuri.jpg" alt="Dr. Nitin K. Puri">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Nitin K. Puri</h3>
+                    <p class="faculty-title">Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Nanostructured materials, thin films, ion beam modifications.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 11 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/pawantyagi.jpg" alt="Dr. Pawan Tyagi">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Pawan Tyagi</h3>
+                    <p class="faculty-title">Carbon nanotubes, graphene synthesis, diamond materials</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Leading research in astrophysics and cosmology with focus on dark matter detection techniques.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 12 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/yogitakalra.jpg" alt="Dr. Yogita Kalra">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Yogita Kalra</h3>
+                    <p class="faculty-title">Associate Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Nanophotonics, photonic crystals, optical devices.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 13 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/renukabokolia.jpg" alt="Dr. Renuka Bokolia">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Renuka Bokolia</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Ferroelectric ceramics, phosphors, dielectric materials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 14 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/richasharma.jpg" alt="Dr. Richa Sharma">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Richa Sharma</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Multiferroic composites, thermoelectric materials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 15 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/rinkusharma.jpg" alt="Prof. Rinku Sharma">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Prof. Rinku Sharma</h3>
+                    <p class="faculty-title">Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Laser-atom interactions, THz Radiation Emission in nanostructures.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 16 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/rishuChaujar.jpg" alt="Dr. Rishu Chaujar">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Rishu Chaujar</h3>
+                    <p class="faculty-title">Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Semiconductor Device Modeling, Nanowire FETs, Biomedical Sensors.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 17 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/rksinha.jpg" alt="Dr. Sanjay Verma">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Sanjay Verma</h3>
+                    <p class="faculty-title">Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Fibre optics, optical communication, nanophotonics devices.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+                        <!-- Faculty Card 18 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/saritabaghel (1).jpg" alt="Dr. Sarita Baghel">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Sarita Baghel</h3>
+                    <p class="faculty-title">Assistant Professo</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Solar cells, renewable energy materials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+                        <!-- Faculty Card 19 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/ymeena.jpg" alt="Dr. Deshraj Meena">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Deshraj Meena</h3>
+                    <p class="faculty-title">Assistant Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Under update.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+                        <!-- Faculty Card 20 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/amrishpanwar1.jpg" alt="Dr. Amrish K. Panwar">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Amrish K. Panwar</h3>
+                    <p class="faculty-title">Associate Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Energy storage devices, thermoelectric materials.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 21 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/Shailesh.jpg" alt="Prof. Shailesh Sharma">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Prof. Shailesh Sharma</h3>
+                    <p class="faculty-title">Emeritus Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                       Quantum dots, hybrid nanocomposites, photovoltaics.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+                        <!-- Faculty Card 22 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/ajeetkumar.jpg" alt="Dr. Ajeet Kumar">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. Ajeet Kumar</h3>
+                    <p class="faculty-title">Associate Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Fiber optics, integrated optics, solar energy.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Faculty Card 23 -->
+            <div class="faculty-card">
+                <div class="faculty-img">
+                    <img src="image/Prof/srinivas.jpg" alt="Dr. A. Srinivas Rao">
+                </div>
+                <div class="faculty-content">
+                    <h3 class="faculty-name">Dr. A. Srinivas Rao</h3>
+                    <p class="faculty-title">Professor</p>
+                    <div class="faculty-expertise">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>M.Sc, PhD</span>
+                    </div>
+                    <p class="faculty-research">
+                        Solid state spectroscopy, atmospheric sciences.
+                    </p>
+                    <div class="faculty-links">
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-file-alt"></i> Profile
+                        </a>
+                        <a href="#" class="faculty-link">
+                            <i class="fas fa-paperclip"></i> Publications
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">DTU <span>MSC Physics</span></div>
+            <p>Delhi Technological University</p>
+            <p>Shahbad Daulatpur, Main Bawana Road, Delhi-110042</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-researchgate"></i></a>
+            </div>
+            
+            <p>&copy; 2025 DTU MSC Physics. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    
+    <!-- Faculty Filter Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deptButtons = document.querySelectorAll('.dept-btn');
+            const facultyCards = document.querySelectorAll('.faculty-card');
+
+            deptButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    deptButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get the department filter
+                    const filter = this.textContent.trim().toLowerCase();
+                    
+                    // Filter faculty cards
+                    facultyCards.forEach(card => {
+                        if (filter === 'all faculty') {
+                            card.style.display = 'block';
+                        } else {
+                            const cardText = card.textContent.toLowerCase();
+                            if (cardText.includes(filter)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <script>
+function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
